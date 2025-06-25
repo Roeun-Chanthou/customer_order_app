@@ -1,0 +1,30 @@
+class RoutesName {
+  RoutesName._();
+  static String splash = "/splash";
+  static String mainScreen = "/mainScreen";
+  static String loginScreen = "/loginScreen";
+  static String registerScreen = "/registerScreen";
+  static String forgetPS = "/forgetPS";
+  static String newPS = "/newPS";
+  static String homeScreen = "/homeScreen";
+  static String onBording = "/onBording";
+  static String profileScreen = "/profileScreen";
+  static String settingsScreen = "/settingsScreen";
+  static String forgotPasswordScreen = "/forgotPasswordScreen";
+  static String resetPasswordScreen = "/resetPasswordScreen";
+  static String productDetailScreen = "/productDetailScreen";
+  static String cartScreen = "/cartScreen";
+  static String wishlist = "/wishlist";
+  static String orderHistoryScreen = "/orderHistoryScreen";
+  static String orderDetailScreen = "/orderDetailScreen";
+  static String categoryScreen = "/categoryScreen";
+  static String searchScreen = "/searchScreen";
+  static String aboutScreen = "/aboutScreen";
+  static String contactUsScreen = "/contactUsScreen";
+  static String termsAndConditionsScreen = "/termsAndConditionsScreen";
+  static String privacyPolicyScreen = "/privacyPolicyScreen";
+  static String otpVerify = "/otpVerify";
+  static String otpForgetPsVerify = "/otpForgetPsVerify";
+  static String setUpAccount = "/setUpAccount";
+  static String successAcc = "/successAcc";
+}
