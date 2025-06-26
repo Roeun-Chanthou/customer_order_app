@@ -20,7 +20,7 @@ class CreateNewPsView extends GetView<CreateNewPsController> {
       body: Form(
         key: formKey,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

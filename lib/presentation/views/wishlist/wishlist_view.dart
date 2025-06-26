@@ -1,6 +1,9 @@
+import 'package:customer_order_app/core/routes/routes_name.dart';
+import 'package:customer_order_app/data/models/product_model.dart';
 import 'package:customer_order_app/presentation/views/home/home_screen/home_controller.dart';
 import 'package:customer_order_app/presentation/views/wishlist/wishlist_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:get/get.dart';
 
 class WishlistView extends GetView<WishlistController> {
@@ -11,32 +14,86 @@ class WishlistView extends GetView<WishlistController> {
     final homeController = Get.find<HomeController>();
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: Text("Whislist"), forceMaterialTransparency: true),
+      appBar: AppBar(
+        title: Text("Wishlist"),
+        forceMaterialTransparency: true,
+      ),
       body: Obx(() {
         if (homeController.wishlist.isEmpty) {
-          return Center(child: Text("No items in wishlist"));
+          return Center(
+            child: Text("No items in wishlist"),
+          );
         }
-        return ListView.builder(
+        return GridView.builder(
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            childAspectRatio: 1 / 1.5,
+          ),
           itemCount: homeController.wishlist.length,
           itemBuilder: (context, index) {
-            final product = homeController.wishlist[index];
-            return ListTile(
-              leading: Image.network(
-                product.image,
-                width: 50,
-                height: 50,
-                fit: BoxFit.cover,
-              ),
-              title: Text(product.name),
-              subtitle: Text("\$${product.price}"),
-              trailing: IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () => homeController.toggleWishlist(product),
-              ),
-            );
+            var product = homeController.wishlist[index];
+            return _buildGridProduct(product);
           },
         );
       }),
+    );
+  }
+
+  Widget _buildGridProduct(ProductModel product) {
+    return Bounceable(
+      onTap: () {
+        Get.toNamed(
+          RoutesName.productDetailScreen,
+          arguments: product,
+        );
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Stack(
+              children: [
+                Container(
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: Colors.grey.shade300,
+                  ),
+                  child: Image.network(
+                    product.image,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            product.description,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(
+            product.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(
+            "\$${product.price}",
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.red,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

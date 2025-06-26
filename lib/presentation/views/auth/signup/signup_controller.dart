@@ -30,6 +30,7 @@ class SignUpController extends GetxController
 
     emailController.clear();
     passwordController.clear();
+    confirmPasswordController.clear();
 
     _animationController = AnimationController(
       vsync: this,
@@ -70,6 +71,7 @@ class SignUpController extends GetxController
   void clearForm() {
     emailController.clear();
     passwordController.clear();
+    confirmPasswordController.clear();
     isRememberMe.value = false;
     isPasswordVisible.value = false;
   }

@@ -67,33 +67,24 @@ class DrawerHomeView extends GetView<DrawerHomeController> {
               SettingCard(
                 title: 'Dark Mode',
                 icon: 'assets/icons/sun.svg',
-                onChanged: (value) {},
                 value: true,
               ),
               SettingCard(
                 title: 'Account Info',
                 icon: 'assets/icons/Info Circle.svg',
-                // onChanged: (value) {},
+                onChanged: (value) {},
               ),
               SettingCard(
                 title: 'Password',
                 icon: 'assets/icons/Lock.svg',
-                // onChanged: (value) {},
               ),
               SettingCard(
                 title: 'Order',
                 icon: 'assets/icons/Vector copy.svg',
-                // onChanged: (value) {},
-              ),
-              SettingCard(
-                title: 'My Card',
-                icon: 'assets/icons/Wallet.svg',
-                onChanged: (value) {},
               ),
               SettingCard(
                 title: 'Wishlist',
                 icon: 'assets/icons/Heart.svg',
-                // onChanged: (value) {},
               ),
               SettingCard(
                 title: 'Settings',

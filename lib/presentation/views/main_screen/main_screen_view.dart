@@ -59,16 +59,16 @@ class MainScreenView extends GetView<MainScreenController> {
               ),
               label: 'Cart',
             ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                controller.currenIndex.value == 3
-                    ? 'assets/icons/Vector.svg'
-                    : 'assets/icons/Wallet.svg',
-                width: 24,
-                height: 24,
-              ),
-              label: 'Wallet',
-            ),
+            // BottomNavigationBarItem(
+            //   icon: SvgPicture.asset(
+            //     controller.currenIndex.value == 3
+            //         ? 'assets/icons/Vector.svg'
+            //         : 'assets/icons/Wallet.svg',
+            //     width: 24,
+            //     height: 24,
+            //   ),
+            //   label: 'Wallet',
+            // ),
           ],
         ),
       );
