@@ -1,4 +1,3 @@
-import 'package:customer_order_app/core/routes/routes_name.dart';
 import 'package:customer_order_app/core/themes/themes.dart';
 import 'package:customer_order_app/presentation/views/auth/setup_account/setup_account_controller.dart';
 import 'package:customer_order_app/presentation/widgets/custom_buttom.dart';
@@ -72,26 +71,35 @@ class SetupAccountView extends GetView<SetupAccountController> {
                 SizedBox(height: 24),
                 Text('Gender'),
                 SizedBox(height: 8),
-                AnimatedBuilder(
-                  animation: controller.shakeAnimation,
-                  builder: (context, child) {
-                    return Transform.translate(
-                      offset: Offset(controller.shakeAnimation.value, 0),
-                      child: child,
-                    );
+                // AnimatedBuilder(
+                //   animation: controller.shakeAnimation,
+                //   builder: (context, child) {
+                //     return Transform.translate(
+                //       offset: Offset(controller.shakeAnimation.value, 0),
+                //       child: child,
+                //     );
+                //   },
+                //   child: Obx(
+                //     () => GenderDropdown(
+                //       labelText: 'Gender',
+                //       selectedGender: controller.selectedGender.value,
+                //       onChanged: (value) {
+                //         if (value != null) {
+                //           controller.updateGender(value);
+                //         }
+                //       },
+                //       validator: controller.validateGender,
+                //     ),
+                //   ),
+                // ),
+                GenderDropdown(
+                  labelText: 'Gender',
+                  selectedGender: controller.selectedGender.value,
+                  onChanged: (value) {
+                    if (value != null) controller.updateGender(value);
                   },
-                  child: Obx(
-                    () => GenderDropdown(
-                      labelText: 'Gender',
-                      selectedGender: controller.selectedGender.value,
-                      onChanged: (value) {
-                        if (value != null) {
-                          controller.updateGender(value);
-                        }
-                      },
-                      validator: controller.validateGender,
-                    ),
-                  ),
+                  validator: controller.validateGender,
+                  genderOptions: const ['male', 'female', 'other'],
                 ),
                 const SizedBox(height: 24),
                 Text('Phone Number'),
@@ -116,7 +124,8 @@ class SetupAccountView extends GetView<SetupAccountController> {
                   text: "Submit",
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      Get.toNamed(RoutesName.successAcc);
+                      // Get.toNamed(RoutesName.successAcc);
+                      controller.submitAccountSetup();
                     } else {
                       controller.triggerShake();
                     }

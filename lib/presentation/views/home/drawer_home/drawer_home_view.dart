@@ -1,10 +1,12 @@
 import 'package:customer_order_app/core/routes/routes_name.dart';
 import 'package:customer_order_app/core/themes/themes.dart';
+import 'package:customer_order_app/data/services/auth_service.dart';
+import 'package:customer_order_app/presentation/controllers/theme_controller.dart';
+import 'package:customer_order_app/presentation/controllers/user_controller.dart';
 import 'package:customer_order_app/presentation/views/home/drawer_home/drawer_home_controller.dart';
 import 'package:customer_order_app/presentation/widgets/setting_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class DrawerHomeView extends GetView<DrawerHomeController> {
@@ -12,45 +14,42 @@ class DrawerHomeView extends GetView<DrawerHomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Get.find<UserController>().user.value;
     return Drawer(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 45,
-                width: 45,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: ThemesApp.textBackground,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SvgPicture.asset(
-                    'assets/icons/menu copy.svg',
-                    width: 24,
-                    height: 24,
-                  ),
-                ),
-              ),
               SizedBox(height: 24),
               Row(
                 children: [
                   CircleAvatar(
                     radius: 45,
-                    backgroundImage: AssetImage("assets/images/user.jpg"),
+                    backgroundColor: ThemesApp.secondaryColor,
+                    backgroundImage: (user!.photo.isNotEmpty)
+                        ? NetworkImage(user.photo)
+                        : null,
+                    child: (user.photo.isEmpty)
+                        ? Icon(
+                            Icons.person,
+                            size: 45,
+                            color: Colors.white,
+                          )
+                        : null,
                   ),
                   SizedBox(width: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Dom SlanhOun",
+                        user.fullName,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -64,39 +63,46 @@ class DrawerHomeView extends GetView<DrawerHomeController> {
                 ],
               ),
               SizedBox(height: 24),
-              SettingCard(
-                title: 'Dark Mode',
-                icon: 'assets/icons/sun.svg',
-                value: true,
+              Obx(
+                () => SettingCard(
+                  title: 'Dark Mode',
+                  icon: Icons.dark_mode,
+                  value: Get.find<ThemeController>().isDarkMode.value,
+                  onChanged: (val) => Get.find<ThemeController>().toggleTheme(),
+                ),
               ),
               SettingCard(
+                value: null,
                 title: 'Account Info',
-                icon: 'assets/icons/Info Circle.svg',
+                icon: Icons.info_outline,
                 onChanged: (value) {},
               ),
               SettingCard(
+                value: null,
                 title: 'Password',
-                icon: 'assets/icons/Lock.svg',
+                icon: Icons.lock_outline,
               ),
               SettingCard(
+                value: null,
                 title: 'Order',
-                icon: 'assets/icons/Vector copy.svg',
+                icon: Icons.shopping_cart_outlined,
               ),
               SettingCard(
-                title: 'Wishlist',
-                icon: 'assets/icons/Heart.svg',
-              ),
-              SettingCard(
+                value: null,
                 title: 'Settings',
-                icon: 'assets/icons/Setting.svg',
+                icon: Icons.settings,
                 onChanged: (value) {},
               ),
               Spacer(),
               Bounceable(
-                onTap: () => Get.offAllNamed(RoutesName.onBording),
+                onTap: () {
+                  AuthService.logout();
+                  Get.offAllNamed(RoutesName.onBording);
+                },
                 child: SettingCard(
+                  value: null,
                   title: 'Logout',
-                  icon: 'assets/icons/Lock.svg',
+                  icon: Icons.logout_outlined,
                 ),
               ),
             ],

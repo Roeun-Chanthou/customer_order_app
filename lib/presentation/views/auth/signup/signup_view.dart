@@ -153,10 +153,9 @@ class SignUpView extends GetView<SignUpController> {
                 Obx(
                   () => CustomButton(
                     text: 'Register',
-                    backgroundColor:
-                        controller.isFormFilled.value
-                            ? ThemesApp.secondaryColor
-                            : ThemesApp.primaryColor,
+                    backgroundColor: controller.isFormFilled.value
+                        ? ThemesApp.secondaryColor
+                        : ThemesApp.primaryColor,
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         controller.register();
@@ -164,10 +163,9 @@ class SignUpView extends GetView<SignUpController> {
                         controller.triggerShake();
                       }
                     },
-                    textColor:
-                        controller.isFormFilled.value
-                            ? Colors.white
-                            : ThemesApp.textDarkColor,
+                    textColor: controller.isFormFilled.value
+                        ? Colors.white
+                        : ThemesApp.textDarkColor,
                   ),
                 ),
               ],

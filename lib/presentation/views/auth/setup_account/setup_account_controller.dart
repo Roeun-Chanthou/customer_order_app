@@ -1,8 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:customer_order_app/core/routes/routes_name.dart';
+import 'package:customer_order_app/data/services/auth_service.dart';
+import 'package:customer_order_app/presentation/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SetupAccountController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -41,6 +46,31 @@ class SetupAccountController extends GetxController
           _animationController.reverse();
         }
       });
+  }
+
+  Future<void> submitAccountSetup() async {
+    final result = await AuthService.setupAccount(
+      fullName: fullName.text.trim(),
+      email: Get.arguments ?? '',
+      gender: selectedGender.value,
+      phone: phone.text.trim(),
+      photo: imageUrl.value.isNotEmpty ? imageUrl.value : null,
+    );
+
+    if (result['success'] == true) {
+      if (result['data'] != null) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true);
+        await prefs.setString('userData', jsonEncode(result['data']));
+        final userController = Get.find<UserController>();
+        userController.setUserFromJson(result['data']);
+      }
+      Get.offAllNamed(RoutesName.mainScreen);
+    } else {
+      Get.snackbar('Error',
+          result['error'] ?? result['message'] ?? 'Account setup failed');
+      triggerShake();
+    }
   }
 
   void profileClick() async {

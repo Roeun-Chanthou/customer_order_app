@@ -1,4 +1,6 @@
 import 'package:customer_order_app/core/routes/routes_name.dart';
+import 'package:customer_order_app/data/services/auth_service.dart';
+import 'package:customer_order_app/presentation/views/auth/otp_verify/otp_verify_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -40,17 +42,16 @@ class SignUpController extends GetxController
     shakeAnimation = Tween<double>(begin: 0.0, end: 10.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.elasticIn),
     )..addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _animationController.reverse();
-      }
-    });
+        if (status == AnimationStatus.completed) {
+          _animationController.reverse();
+        }
+      });
 
     clearForm();
   }
 
   void updateFormStatus() {
-    isFormFilled.value =
-        emailController.text.isNotEmpty &&
+    isFormFilled.value = emailController.text.isNotEmpty &&
         passwordController.text.isNotEmpty &&
         confirmPasswordController.text.isNotEmpty;
   }
@@ -80,19 +81,33 @@ class SignUpController extends GetxController
     isRememberMe.value = !isRememberMe.value;
   }
 
-  void register() {
+  void register() async {
     if (emailController.text.isEmpty || passwordController.text.isEmpty) {
       triggerShake();
       return;
     }
+
     if (passwordController.text != confirmPasswordController.text) {
       triggerShake();
       return;
     }
 
     isLoading.value = true;
+    final result = await AuthService.register(
+      emailController.text.trim(),
+      passwordController.text,
+    );
+    isLoading.value = false;
 
-    Get.toNamed(RoutesName.otpVerify);
-    clearForm();
+    if (result['success'] == true) {
+      final email = emailController.text.trim();
+      Get.put(OtpVerifyController(email: email));
+
+      Get.toNamed(RoutesName.otpVerify, arguments: email);
+      clearForm();
+    } else {
+      Get.snackbar('Error', result['message'] ?? 'Registration failed');
+      triggerShake();
+    }
   }
 }

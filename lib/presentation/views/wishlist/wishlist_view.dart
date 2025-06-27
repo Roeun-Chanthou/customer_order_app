@@ -13,7 +13,6 @@ class WishlistView extends GetView<WishlistController> {
   Widget build(BuildContext context) {
     final homeController = Get.find<HomeController>();
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("Wishlist"),
         forceMaterialTransparency: true,
@@ -25,7 +24,10 @@ class WishlistView extends GetView<WishlistController> {
           );
         }
         return GridView.builder(
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+          padding: EdgeInsets.symmetric(
+            horizontal: 16.0,
+            vertical: 16,
+          ),
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -56,21 +58,17 @@ class WishlistView extends GetView<WishlistController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Stack(
-              children: [
-                Container(
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: Colors.grey.shade300,
-                  ),
-                  child: Image.network(
-                    product.image,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                  ),
-                ),
-              ],
+            child: Container(
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                color: Colors.grey.shade300,
+              ),
+              child: Image.network(
+                product.image,
+                fit: BoxFit.cover,
+                width: double.infinity,
+              ),
             ),
           ),
           SizedBox(height: 8),

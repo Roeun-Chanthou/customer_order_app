@@ -11,68 +11,66 @@ class MainScreenView extends GetView<MainScreenController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: controller.currenIndex.value == 0 ? _buildAppBar() : null,
-        drawer: controller.currenIndex.value == 0 ? DrawerHomeView() : null,
-        body: IndexedStack(
-          index: controller.currenIndex.value,
-          children: controller.list,
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.white,
-          type: BottomNavigationBarType.fixed,
-          currentIndex: controller.currenIndex.value,
-          onTap: (index) => controller.currenIndex.value = index,
-          showUnselectedLabels: true,
-          showSelectedLabels: true,
-          selectedItemColor: ThemesApp.secondaryColor,
-          items: [
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                controller.currenIndex.value == 0
-                    ? 'assets/icons/Home copy.svg'
-                    : 'assets/icons/Home.svg',
-                width: 24,
-                height: 24,
+    return Obx(
+      () {
+        return Scaffold(
+          // backgroundColor: Colors.white,
+          appBar: controller.currenIndex.value == 0 ? _buildAppBar() : null,
+          drawer: controller.currenIndex.value == 0 ? DrawerHomeView() : null,
+          body: IndexedStack(
+            index: controller.currenIndex.value,
+            children: controller.list,
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            // backgroundColor: Colors.white,
+            type: BottomNavigationBarType.fixed,
+            currentIndex: controller.currenIndex.value,
+            onTap: (index) => controller.currenIndex.value = index,
+            showUnselectedLabels: true,
+            showSelectedLabels: true,
+            selectedItemColor: ThemesApp.secondaryColor,
+            items: [
+              BottomNavigationBarItem(
+                icon: controller.currenIndex.value == 0
+                    ? Icon(
+                        Icons.other_houses_rounded,
+                        size: 26,
+                      )
+                    : Icon(
+                        Icons.other_houses_outlined,
+                        size: 26,
+                      ),
+                label: 'Home',
               ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                controller.currenIndex.value == 1
-                    ? 'assets/icons/Vector-1.svg'
-                    : 'assets/icons/Heart.svg',
-                width: 24,
-                height: 24,
+              BottomNavigationBarItem(
+                icon: controller.currenIndex.value == 1
+                    ? Icon(
+                        Icons.favorite,
+                        size: 26,
+                      )
+                    : Icon(
+                        Icons.favorite_border_outlined,
+                        size: 26,
+                      ),
+                label: 'Wishlist',
               ),
-              label: 'Wishlist',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                controller.currenIndex.value == 2
-                    ? 'assets/icons/Vector.svg'
-                    : 'assets/icons/Vector copy 3.svg',
-                width: 24,
-                height: 24,
+              BottomNavigationBarItem(
+                icon: controller.currenIndex.value == 2
+                    ? Icon(
+                        Icons.shopping_cart,
+                        size: 26,
+                      )
+                    : Icon(
+                        Icons.shopping_cart_outlined,
+                        size: 26,
+                      ),
+                label: 'Cart',
               ),
-              label: 'Cart',
-            ),
-            // BottomNavigationBarItem(
-            //   icon: SvgPicture.asset(
-            //     controller.currenIndex.value == 3
-            //         ? 'assets/icons/Vector.svg'
-            //         : 'assets/icons/Wallet.svg',
-            //     width: 24,
-            //     height: 24,
-            //   ),
-            //   label: 'Wallet',
-            // ),
-          ],
-        ),
-      );
-    });
+            ],
+          ),
+        );
+      },
+    );
   }
 
   AppBar _buildAppBar() {
@@ -91,14 +89,16 @@ class MainScreenView extends GetView<MainScreenController> {
               width: 45,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: ThemesApp.textHintColor,
+                // color: Colors.white,
+                color: ThemesApp.secondaryColor,
               ),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: SvgPicture.asset(
-                  'assets/icons/menu.svg',
-                  width: 24,
-                  height: 24,
+                  'assets/icons/menu copy.svg',
+                  // width: 24,
+                  // height: 24,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -113,14 +113,13 @@ class MainScreenView extends GetView<MainScreenController> {
             width: 45,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: ThemesApp.textHintColor,
+              color: ThemesApp.secondaryColor,
             ),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
-              child: SvgPicture.asset(
-                'assets/icons/Vector copy 3.svg',
-                width: 24,
-                height: 24,
+              child: Icon(
+                Icons.shopping_bag,
+                color: Colors.white,
               ),
             ),
           ),

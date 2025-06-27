@@ -17,6 +17,8 @@ import 'package:customer_order_app/presentation/views/auth/signup/signup_binding
 import 'package:customer_order_app/presentation/views/auth/signup/signup_view.dart';
 import 'package:customer_order_app/presentation/views/auth/success_acc/success_acc_binding.dart';
 import 'package:customer_order_app/presentation/views/auth/success_acc/success_acc_view.dart';
+import 'package:customer_order_app/presentation/views/auth/success_login/success_login_binding.dart';
+import 'package:customer_order_app/presentation/views/auth/success_login/success_login_view.dart';
 import 'package:customer_order_app/presentation/views/cart/cart_binding.dart';
 import 'package:customer_order_app/presentation/views/cart/cart_view.dart';
 import 'package:customer_order_app/presentation/views/home/detail_product/detail_product_binding.dart';
@@ -109,6 +111,11 @@ class RoutesApp {
       name: RoutesName.otpForgetPsVerify,
       page: () => OtpForgetPsView(),
       binding: OtpForgetPsBinding(),
+    ),
+    GetPage(
+      name: RoutesName.successLogin,
+      page: () => SuccessLoginView(),
+      binding: SuccessLoginBinding(),
     ),
   ];
 }

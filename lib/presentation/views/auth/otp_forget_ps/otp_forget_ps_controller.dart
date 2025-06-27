@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:customer_order_app/core/routes/routes_name.dart';
+import 'package:customer_order_app/data/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -112,14 +113,12 @@ class OtpForgetPsController extends GetxController {
       }
 
       isLoading.value = true;
-
-      // final response = await apiService.verifyOtp(email: email, otp: otp);
-      // if (response.isSuccess) {
-      //   // Handle success
-      //   Get.offAllNamed('/home');
-      // } else {
-      //   errorText.value = response.message ?? 'Invalid OTP. Please try again.';
-      // }
+      final result = await AuthService.verifyUser(email, otp);
+      if (result['success'] == true) {
+        // Success logic
+      } else {
+        // Show result['message']
+      }
 
       Get.snackbar(
         'Success',

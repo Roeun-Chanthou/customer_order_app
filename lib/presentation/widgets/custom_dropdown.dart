@@ -5,6 +5,7 @@ class GenderDropdown extends StatelessWidget {
   final String selectedGender;
   final Function(String?) onChanged;
   final String? Function(String?)? validator;
+  final List<String> genderOptions;
 
   const GenderDropdown({
     super.key,
@@ -12,12 +13,13 @@ class GenderDropdown extends StatelessWidget {
     required this.selectedGender,
     required this.onChanged,
     this.validator,
+    this.genderOptions = const ['male', 'female', 'other'],
   });
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 16,
         color: Colors.black,
       ),
@@ -46,11 +48,11 @@ class GenderDropdown extends StatelessWidget {
         ),
       ),
       value: selectedGender.isNotEmpty ? selectedGender : null,
-      items: ['Male', 'Female', 'Other'].map(
+      items: genderOptions.map(
         (gender) {
           return DropdownMenuItem<String>(
             value: gender,
-            child: Text(gender),
+            child: Text(gender[0].toUpperCase() + gender.substring(1)),
           );
         },
       ).toList(),

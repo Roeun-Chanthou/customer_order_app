@@ -14,6 +14,7 @@ class OtpVerifyView extends GetView<OtpVerifyController> {
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -25,143 +26,160 @@ class OtpVerifyView extends GetView<OtpVerifyController> {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Verification Code",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-                color: Colors.black87,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              "Please enter the OTP sent to your email address.",
-              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-            ),
-            const SizedBox(height: 32),
-            Center(
-              child: CustomOtpInput(
-                length: controller.otpLength,
-                controllers: controller.otpControllers,
-                focusNodes: controller.focusNodes,
-                width: screenWidth * 0.12,
-                // height: screenHeight * 0.06,
-                borderRadius: 12,
-                spacing: 10,
-                fillColor: Colors.grey[50],
-                borderColor: Colors.grey[300],
-                focusedBorderColor: Theme.of(context).primaryColor,
-                textStyle: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-                onCompleted: (otp) {
-                  controller.verifyOtp();
-                },
-                onChanged: (otp) {
-                  controller.currentOtp.value = otp;
-                },
-              ),
-            ),
-            const SizedBox(height: 24),
-            const SizedBox(height: 32),
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed:
-                    controller.isLoading.value
-                        ? null
-                        : () {
-                          if (controller.isAllFieldsFilled()) {
-                            controller.verifyOtp();
-                          } else {
-                            controller.errorText.value =
-                                'Please enter the complete OTP';
-                          }
-                        },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 0,
-                ),
-                child:
-                    controller.isLoading.value
-                        ? LoadingIndicator()
-                        : const Text(
+      body: Obx(
+        () => controller.isLoading.value
+            ? const Center(child: LoadingIndicator())
+            : Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 40),
+
+                    // Icon
+                    Container(
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade50,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.mark_email_read_outlined,
+                        size: 40,
+                        color: Colors.blue.shade600,
+                      ),
+                    ),
+
+                    const SizedBox(height: 32),
+
+                    // Title
+                    const Text(
+                      'Verify Your Email',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Description
+                    Text(
+                      'We sent a verification code to\n${controller.email}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey.shade600,
+                        height: 1.5,
+                      ),
+                    ),
+
+                    const SizedBox(height: 40),
+
+                    // OTP Input
+                    CustomOtpInput(
+                      length: controller.otpLength,
+                      controllers: controller.otpControllers,
+                      focusNodes: controller.otpFocusNodes,
+                      onChanged: (otp) => controller.updateOtp(otp),
+                      onCompleted: (otp) => controller.verifyOtp(),
+                      width: 45,
+                      height: 55,
+                      spacing: 12,
+                      borderRadius: 12,
+                      fillColor: Colors.grey.shade50,
+                      borderColor: Colors.grey.shade300,
+                      focusedBorderColor: Colors.blue.shade600,
+                      textStyle: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Error Text
+                    if (controller.errorText.value != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text(
+                          controller.errorText.value!,
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+
+                    const SizedBox(height: 32),
+
+                    // Verify Button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: controller.currentOtp.value.length ==
+                                controller.otpLength
+                            ? () => controller.verifyOtp()
+                            : null,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue.shade600,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: const Text(
                           'Verify OTP',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-              ),
-            ),
-            const SizedBox(height: 24),
-            Obx(
-              () => Column(
-                children: [
-                  if (!controller.isResendEnabled.value)
-                    Text(
-                      'Resend code in ${controller.timerSeconds.value}s',
-                      style: TextStyle(color: Colors.grey[600], fontSize: 14),
-                    )
-                  else
-                    TextButton(
-                      onPressed:
-                          controller.isLoading.value
-                              ? null
-                              : () {
-                                controller.resendOtp();
-                              },
-                      child: Text(
-                        'Resend OTP',
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
                       ),
                     ),
-                ],
+
+                    const SizedBox(height: 24),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Didn't receive the code? ",
+                          style: TextStyle(
+                            color: Colors.grey.shade600,
+                            fontSize: 14,
+                          ),
+                        ),
+                        if (controller.isResendEnabled.value)
+                          GestureDetector(
+                            onTap: () => controller.resendOtp(),
+                            child: Text(
+                              'Resend',
+                              style: TextStyle(
+                                color: Colors.blue.shade600,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          )
+                        else
+                          Text(
+                            'Resend in ${controller.timerSeconds.value}s',
+                            style: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontSize: 14,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    controller.resetScreen();
-                  },
-                  child: Text(
-                    'Clear All',
-                    style: TextStyle(color: Colors.grey[600], fontSize: 14),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                TextButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  child: Text(
-                    'Change Email',
-                    style: TextStyle(color: Colors.grey[600], fontSize: 14),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }

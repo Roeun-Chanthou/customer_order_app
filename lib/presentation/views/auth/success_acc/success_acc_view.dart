@@ -1,4 +1,5 @@
 import 'package:customer_order_app/core/routes/routes_name.dart';
+import 'package:customer_order_app/presentation/controllers/user_controller.dart';
 import 'package:customer_order_app/presentation/views/auth/success_acc/success_acc_controller.dart';
 import 'package:customer_order_app/presentation/widgets/custom_buttom.dart';
 import 'package:customer_order_app/presentation/widgets/custom_size.dart';
@@ -38,6 +39,8 @@ class SuccessAccView extends GetView<SuccessAccController> {
                 backgroundColor: Colors.blue,
                 textColor: Colors.white,
                 onPressed: () {
+                  final user = Get.find<UserController>().user.value;
+
                   Get.offAllNamed(RoutesName.mainScreen);
                 },
               ),

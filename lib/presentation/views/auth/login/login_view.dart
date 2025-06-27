@@ -141,10 +141,9 @@ class LoginView extends GetView<LoginController> {
                 Obx(
                   () => CustomButton(
                     text: 'Login',
-                    backgroundColor:
-                        controller.isFormFilled.value
-                            ? ThemesApp.secondaryColor
-                            : ThemesApp.primaryColor,
+                    backgroundColor: controller.isFormFilled.value
+                        ? ThemesApp.secondaryColor
+                        : ThemesApp.primaryColor,
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         controller.login();
@@ -152,10 +151,9 @@ class LoginView extends GetView<LoginController> {
                         controller.triggerShake();
                       }
                     },
-                    textColor:
-                        controller.isFormFilled.value
-                            ? Colors.white
-                            : ThemesApp.textDarkColor,
+                    textColor: controller.isFormFilled.value
+                        ? Colors.white
+                        : ThemesApp.textDarkColor,
                   ),
                 ),
                 Spacer(),

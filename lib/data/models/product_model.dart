@@ -8,6 +8,7 @@ String productModelToJson(List<ProductModel> data) =>
 
 class ProductModel {
   int id;
+  int cid;
   String name;
   String description;
   String price;
@@ -16,10 +17,11 @@ class ProductModel {
   String createdAt;
   String updatedAt;
   String category;
-  int categoryId; // <-- Add this
+  int categoryId;
 
   ProductModel({
     required this.id,
+    required this.cid,
     required this.name,
     required this.description,
     required this.price,
@@ -31,19 +33,38 @@ class ProductModel {
     this.categoryId = 0, // <-- Add this
   });
 
+  // factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
+  //       id: json["id"],
+  //       cid: json['cid'],
+  //       name: json["name"],
+  //       description: json["description"],
+  //       price: json["price"],
+  //       stock: json["stock"],
+  //       image: json["image"],
+  //       createdAt: json["created_at"] ?? '',
+  //       updatedAt: json["updated_at"] ?? '',
+  //       category: json["category"] is Map
+  //           ? (json["category"]["name"] ?? 'Other')
+  //           : (json["category"] ?? 'Other'),
+  //       categoryId: json["category"] is Map ? (json["category"]["id"] ?? 0) : 0,
+  //     );
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
-        price: json["price"],
-        stock: json["stock"],
-        image: json["image"],
+        id: json["id"] ?? 0,
+        cid: json['cid'] ?? 0,
+        name: json["name"] ?? '',
+        description: json["description"] ?? '',
+        price: json["price"] ?? '',
+        stock: json["stock"] ?? 0,
+        image: json["image"] ?? '',
         createdAt: json["created_at"] ?? '',
         updatedAt: json["updated_at"] ?? '',
         category: json["category"] is Map
             ? (json["category"]["name"] ?? 'Other')
             : (json["category"] ?? 'Other'),
-        categoryId: json["category"] is Map ? (json["category"]["id"] ?? 0) : 0,
+        categoryId: json["category"] is Map
+            ? (json["category"]["id"] ?? 0)
+            : (json["categoryId"] ??
+                0), // <-- Fix: fallback to categoryId if not a Map
       );
 
   Map<String, dynamic> toJson() => {

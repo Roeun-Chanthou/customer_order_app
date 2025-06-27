@@ -1,4 +1,7 @@
 import 'package:customer_order_app/core/routes/routes_name.dart';
+import 'package:customer_order_app/data/models/user_model.dart';
+import 'package:customer_order_app/data/services/auth_service.dart';
+import 'package:customer_order_app/presentation/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -34,10 +37,10 @@ class LoginController extends GetxController
     shakeAnimation = Tween<double>(begin: 0.0, end: 10.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.elasticIn),
     )..addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _animationController.reverse();
-      }
-    });
+        if (status == AnimationStatus.completed) {
+          _animationController.reverse();
+        }
+      });
 
     clearForm();
   }
@@ -74,7 +77,7 @@ class LoginController extends GetxController
     isPasswordVisible.value = !isPasswordVisible.value;
   }
 
-  void login() {
+  void login() async {
     if (emailController.text.isEmpty || passwordController.text.isEmpty) {
       triggerShake();
       return;
@@ -82,7 +85,28 @@ class LoginController extends GetxController
 
     isLoading.value = true;
 
-    Get.offAllNamed(RoutesName.mainScreen);
-    clearForm();
+    final result = await AuthService.login(
+      emailController.text.trim(),
+      passwordController.text,
+    );
+
+    isLoading.value = false;
+
+    if (result['success'] == true) {
+      final userData = UserModel.fromJson(result['data']);
+      if (!Get.isRegistered<UserController>()) {
+        Get.put(UserController());
+      }
+      Get.find<UserController>().setUser(userData);
+      Get.offAllNamed(RoutesName.mainScreen);
+    } else {
+      Get.snackbar(
+        'Login Failed',
+        result['message'] ?? 'Something went wrong',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: Duration(seconds: 3),
+      );
+    }
   }
 }

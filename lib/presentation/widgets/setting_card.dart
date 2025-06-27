@@ -1,11 +1,10 @@
 import 'package:customer_order_app/core/themes/themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class SettingCard extends StatelessWidget {
   String title;
-  String icon;
+  IconData icon;
   Function(bool)? onChanged;
   bool? value;
   SettingCard({
@@ -25,7 +24,8 @@ class SettingCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              SvgPicture.asset(icon, width: 24, height: 24),
+              // SvgPicture.asset(icon, width: 24, height: 24),
+              Icon(icon),
               SizedBox(width: 16),
               Text(
                 title,
@@ -35,15 +35,15 @@ class SettingCard extends StatelessWidget {
           ),
           value != null
               ? CupertinoSwitch(
-                value: value!,
-                activeTrackColor: Colors.black,
-                inactiveTrackColor: ThemesApp.secondaryColor.withOpacity(0.5),
-                onChanged: (value) {
-                  if (onChanged != null) {
-                    onChanged!(value);
-                  }
-                },
-              )
+                  value: value!,
+                  activeTrackColor: Colors.black,
+                  inactiveTrackColor: ThemesApp.secondaryColor.withOpacity(0.5),
+                  onChanged: (value) {
+                    if (onChanged != null) {
+                      onChanged!(value);
+                    }
+                  },
+                )
               : Container(),
         ],
       ),

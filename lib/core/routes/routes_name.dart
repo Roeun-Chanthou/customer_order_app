@@ -27,4 +27,5 @@ class RoutesName {
   static String otpForgetPsVerify = "/otpForgetPsVerify";
   static String setUpAccount = "/setUpAccount";
   static String successAcc = "/successAcc";
+  static String successLogin = "/successLogin";
 }

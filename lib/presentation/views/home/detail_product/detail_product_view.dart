@@ -18,7 +18,7 @@ class DetailProductView extends GetView<DetailProductController> {
     CustomSize.init(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
           _buildSliverAppBar(products),
@@ -37,7 +37,7 @@ class DetailProductView extends GetView<DetailProductController> {
                           style: const TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                            // color: Colors.black87,
                           ),
                         ),
                       ),
@@ -180,7 +180,10 @@ class DetailProductView extends GetView<DetailProductController> {
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.grey[300]!),
               ),
-              child: const Icon(Icons.remove, color: Colors.black54),
+              child: const Icon(
+                Icons.remove,
+                color: Colors.black54,
+              ),
             ),
           ),
           const SizedBox(width: 20),
@@ -223,15 +226,15 @@ class DetailProductView extends GetView<DetailProductController> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, -5),
+          // color: Colors.white,
+          // boxShadow: [
+          //   BoxShadow(
+          //     // color: Colors.black.withOpacity(0.1),
+          //     blurRadius: 10,
+          //     offset: const Offset(0, -5),
+          //   ),
+          // ],
           ),
-        ],
-      ),
       child: SafeArea(
         child: Row(
           children: [
@@ -315,10 +318,10 @@ class DetailProductView extends GetView<DetailProductController> {
       forceMaterialTransparency: true,
       expandedHeight: CustomSize.screenHeight * 0.4,
       pinned: true,
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       elevation: 0,
       leading: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(left: 16),
         child: Bounceable(
           onTap: () => Get.back(),
           child: Container(
@@ -353,6 +356,7 @@ class DetailProductView extends GetView<DetailProductController> {
                   products.id.toString(),
                 );
                 return Container(
+                  padding: EdgeInsetsDirectional.all(8),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white,
@@ -397,18 +401,21 @@ class DetailProductView extends GetView<DetailProductController> {
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20),
               ),
-              child: Image.network(
-                products.image,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    color: Colors.grey[200],
-                    child: const Icon(
-                      Icons.image_not_supported,
-                      size: 50,
-                    ),
-                  );
-                },
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Image.network(
+                  products.image,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      color: Colors.grey[200],
+                      child: const Icon(
+                        Icons.image_not_supported,
+                        size: 50,
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ),

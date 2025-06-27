@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 class OtpVerifyBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => OtpVerifyController());
+    // Get.lazyPut(() => OtpVerifyController(email: ''));
+    Get.lazyPut<OtpVerifyController>(
+      () => OtpVerifyController.fromArguments(),
+    );
   }
 }
