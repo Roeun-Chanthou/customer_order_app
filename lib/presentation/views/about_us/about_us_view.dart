@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:customer_order_app/core/themes/themes.dart';
 import 'package:customer_order_app/presentation/views/about_us/about_us_controller.dart';
 import 'package:flutter/material.dart';
@@ -39,25 +40,41 @@ class AboutUsView extends GetView<AboutUsController> {
                 mainAxisSpacing: 16,
                 childAspectRatio: 0.75,
                 children: [
-                  _buildMemberCard(
-                    imageUrl: 'assets/aboutus/me.jpg',
-                    name: 'Roeun Chanthou',
-                    position: 'Mobile Developer',
+                  FadeInDownBig(
+                    duration: const Duration(milliseconds: 400),
+                    delay: const Duration(milliseconds: 100),
+                    child: _buildMemberCard(
+                      imageUrl: 'assets/aboutus/me.jpg',
+                      name: 'Roeun Chanthou',
+                      position: 'Mobile Developer',
+                    ),
                   ),
-                  _buildMemberCard(
-                    imageUrl: 'assets/aboutus/kimlong.jpg',
-                    name: 'Ieng Kimlong',
-                    position: 'Mobile Developer',
+                  FadeInUp(
+                    duration: const Duration(milliseconds: 400),
+                    delay: const Duration(milliseconds: 100),
+                    child: _buildMemberCard(
+                      imageUrl: 'assets/aboutus/kimlong.jpg',
+                      name: 'Ieng Kimlong',
+                      position: 'Full Stack Developer',
+                    ),
                   ),
-                  _buildMemberCard(
-                    imageUrl: 'assets/aboutus/kimlong.jpg',
-                    name: 'Ren Rady',
-                    position: 'Mobile Developer',
+                  FadeInDown(
+                    duration: const Duration(milliseconds: 400),
+                    delay: const Duration(milliseconds: 100),
+                    child: _buildMemberCard(
+                      imageUrl: 'assets/aboutus/rady.jpg',
+                      name: 'Ren Rady',
+                      position: 'Spring Boot Developer',
+                    ),
                   ),
-                  _buildMemberCard(
-                    imageUrl: 'assets/aboutus/kimlong.jpg',
-                    name: 'Em Sokhai',
-                    position: 'Mobile Developer',
+                  FadeInUp(
+                    duration: const Duration(milliseconds: 400),
+                    delay: const Duration(milliseconds: 100),
+                    child: _buildMemberCard(
+                      imageUrl: 'assets/aboutus/sokhai.jpg',
+                      name: 'Em Sokhai',
+                      position: 'Web Developer',
+                    ),
                   ),
                 ],
               ),

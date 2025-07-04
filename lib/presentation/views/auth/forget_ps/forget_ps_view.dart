@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:customer_order_app/core/themes/themes.dart';
 import 'package:customer_order_app/presentation/views/auth/forget_ps/forget_ps_controller.dart';
 import 'package:customer_order_app/presentation/widgets/custom_buttom.dart';
@@ -27,7 +28,26 @@ class ForgetPsView extends GetView<ForgetPsController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Please fill your email to go to next step"),
+                  SizedBox(height: 16),
+                  FadeInDownBig(
+                    duration: const Duration(milliseconds: 400),
+                    delay: const Duration(milliseconds: 100),
+                    child: Text(
+                      "Enter your email address below and we'll send you a link to reset your password.",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 32),
+                  Text(
+                    "Email",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[600],
+                    ),
+                  ),
                   SizedBox(height: 20),
                   CustomTextField(
                     hintText: "Enter your email",
@@ -44,17 +64,21 @@ class ForgetPsView extends GetView<ForgetPsController> {
                     },
                   ),
                   SizedBox(height: 45),
-                  CustomButton(
-                    backgroundColor: ThemesApp.secondaryColor,
-                    textColor: Colors.white,
-                    text: 'Submit',
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        controller.submitEmailClick();
-                      } else {
-                        controller.triggerShake();
-                      }
-                    },
+                  FadeInDown(
+                    duration: const Duration(milliseconds: 400),
+                    delay: const Duration(milliseconds: 100),
+                    child: CustomButton(
+                      backgroundColor: ThemesApp.secondaryColor,
+                      textColor: Colors.white,
+                      text: 'Submit',
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          controller.submitEmailClick();
+                        } else {
+                          controller.triggerShake();
+                        }
+                      },
+                    ),
                   ),
                 ],
               ),

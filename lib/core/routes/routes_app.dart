@@ -19,10 +19,6 @@ import 'package:customer_order_app/presentation/views/auth/setup_account/setup_a
 import 'package:customer_order_app/presentation/views/auth/setup_account/setup_account_view.dart';
 import 'package:customer_order_app/presentation/views/auth/signup/signup_binding.dart';
 import 'package:customer_order_app/presentation/views/auth/signup/signup_view.dart';
-import 'package:customer_order_app/presentation/views/auth/success_acc/success_acc_binding.dart';
-import 'package:customer_order_app/presentation/views/auth/success_acc/success_acc_view.dart';
-import 'package:customer_order_app/presentation/views/auth/success_login/success_login_binding.dart';
-import 'package:customer_order_app/presentation/views/auth/success_login/success_login_view.dart';
 import 'package:customer_order_app/presentation/views/cart/cart_binding.dart';
 import 'package:customer_order_app/presentation/views/cart/cart_view.dart';
 import 'package:customer_order_app/presentation/views/checkout/checkout_binding.dart';
@@ -93,11 +89,6 @@ class RoutesApp {
       binding: SetupAccountBinding(),
     ),
     GetPage(
-      name: RoutesName.successAcc,
-      page: () => SuccessAccView(),
-      binding: SuccessAccBinding(),
-    ),
-    GetPage(
       name: RoutesName.forgetPS,
       page: () => ForgetPsView(),
       binding: ForgetPsBinding(),
@@ -126,11 +117,6 @@ class RoutesApp {
       name: RoutesName.otpForgetPsVerify,
       page: () => OtpForgetPsView(),
       binding: OtpForgetPsBinding(),
-    ),
-    GetPage(
-      name: RoutesName.successLogin,
-      page: () => SuccessLoginView(),
-      binding: SuccessLoginBinding(),
     ),
     GetPage(
       name: RoutesName.settingsScreen,

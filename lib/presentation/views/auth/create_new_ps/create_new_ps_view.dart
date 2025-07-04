@@ -118,7 +118,7 @@ class CreateNewPsView extends GetView<CreateNewPsController> {
                   ),
                   SizedBox(height: 45),
                   CustomButton(
-                    backgroundColor: ThemesApp.textSuccessColor,
+                    backgroundColor: ThemesApp.secondaryColor,
                     textColor: Colors.white,
                     text: 'Submit',
                     onPressed: () {

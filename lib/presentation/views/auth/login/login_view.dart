@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:customer_order_app/core/routes/routes_name.dart';
 import 'package:customer_order_app/core/themes/themes.dart';
 import 'package:customer_order_app/presentation/views/auth/login/login_controller.dart';
@@ -57,27 +58,31 @@ class LoginView extends GetView<LoginController> {
                       style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                     ),
                     const SizedBox(height: 8),
-                    AnimatedBuilder(
-                      animation: controller.shakeAnimation,
-                      builder: (context, child) {
-                        return Transform.translate(
-                          offset: Offset(controller.shakeAnimation.value, 0),
-                          child: child,
-                        );
-                      },
-                      child: CustomTextField(
-                        prefixIcon: Icon(Icons.email_outlined),
-                        controller: controller.emailController,
-                        hintText: 'Enter your email',
-                        shakeAnimation: controller.shakeAnimation,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your email';
-                          } else if (!GetUtils.isEmail(value)) {
-                            return 'Please enter a valid email';
-                          }
-                          return null;
+                    FadeInDown(
+                      duration: const Duration(milliseconds: 400),
+                      delay: const Duration(milliseconds: 100),
+                      child: AnimatedBuilder(
+                        animation: controller.shakeAnimation,
+                        builder: (context, child) {
+                          return Transform.translate(
+                            offset: Offset(controller.shakeAnimation.value, 0),
+                            child: child,
+                          );
                         },
+                        child: CustomTextField(
+                          prefixIcon: Icon(Icons.email_outlined),
+                          controller: controller.emailController,
+                          hintText: 'Enter your email',
+                          shakeAnimation: controller.shakeAnimation,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email';
+                            } else if (!GetUtils.isEmail(value)) {
+                              return 'Please enter a valid email';
+                            }
+                            return null;
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(height: 24),
@@ -86,38 +91,42 @@ class LoginView extends GetView<LoginController> {
                       style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                     ),
                     const SizedBox(height: 8),
-                    AnimatedBuilder(
-                      animation: controller.shakeAnimation,
-                      builder: (context, child) {
-                        return Transform.translate(
-                          offset: Offset(controller.shakeAnimation.value, 0),
-                          child: child,
-                        );
-                      },
-                      child: Obx(
-                        () => CustomTextField(
-                          prefixIcon: Icon(Icons.lock_outline),
-                          controller: controller.passwordController,
-                          hintText: "Enter your password",
-                          obscureText: controller.obscurePS.value,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              controller.triggerShake();
-                              return "Please enter your password";
-                            }
-                            return null;
-                          },
-                          suffixIcon: GestureDetector(
-                            onTap: () {
-                              controller.obscurePS.value =
-                                  !controller.obscurePS.value;
+                    FadeInUp(
+                      duration: const Duration(milliseconds: 400),
+                      delay: const Duration(milliseconds: 100),
+                      child: AnimatedBuilder(
+                        animation: controller.shakeAnimation,
+                        builder: (context, child) {
+                          return Transform.translate(
+                            offset: Offset(controller.shakeAnimation.value, 0),
+                            child: child,
+                          );
+                        },
+                        child: Obx(
+                          () => CustomTextField(
+                            prefixIcon: Icon(Icons.lock_outline),
+                            controller: controller.passwordController,
+                            hintText: "Enter your password",
+                            obscureText: controller.obscurePS.value,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                controller.triggerShake();
+                                return "Please enter your password";
+                              }
+                              return null;
                             },
-                            child: Icon(
-                              controller.obscurePS.value
-                                  ? Icons.visibility_outlined
-                                  : Icons.visibility_off_outlined,
-                              color: Colors.grey,
-                              size: 24,
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                controller.obscurePS.value =
+                                    !controller.obscurePS.value;
+                              },
+                              child: Icon(
+                                controller.obscurePS.value
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
+                                color: Colors.grey,
+                                size: 24,
+                              ),
                             ),
                           ),
                         ),
@@ -150,17 +159,21 @@ class LoginView extends GetView<LoginController> {
                       ],
                     ),
                     const SizedBox(height: 32),
-                    CustomButton(
-                      text: 'Login',
-                      backgroundColor: ThemesApp.secondaryColor,
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          controller.login();
-                        } else {
-                          controller.triggerShake();
-                        }
-                      },
-                      textColor: Colors.white,
+                    FadeInDownBig(
+                      duration: const Duration(milliseconds: 400),
+                      delay: const Duration(milliseconds: 100),
+                      child: CustomButton(
+                        text: 'Login',
+                        backgroundColor: ThemesApp.secondaryColor,
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            controller.login();
+                          } else {
+                            controller.triggerShake();
+                          }
+                        },
+                        textColor: Colors.white,
+                      ),
                     ),
                     Spacer(),
                     Padding(

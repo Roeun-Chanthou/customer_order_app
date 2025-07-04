@@ -2,7 +2,6 @@ import 'package:customer_order_app/core/routes/routes_name.dart';
 import 'package:customer_order_app/core/themes/themes.dart';
 import 'package:customer_order_app/presentation/controllers/user_controller.dart';
 import 'package:customer_order_app/presentation/views/cart/cart_controller.dart';
-import 'package:customer_order_app/presentation/views/home/drawer_home/drawer_home_view.dart';
 import 'package:customer_order_app/presentation/views/main_screen/main_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
@@ -18,7 +17,6 @@ class MainScreenView extends GetView<MainScreenController> {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: controller.currenIndex.value == 0 ? _buildAppBar() : null,
-          drawer: controller.currenIndex.value == 0 ? DrawerHomeView() : null,
           body: IndexedStack(
             index: controller.currenIndex.value,
             children: controller.list,

@@ -100,30 +100,30 @@ class OtpVerifyView extends GetView<OtpVerifyController> {
                       : const SizedBox.shrink();
                 }),
                 const SizedBox(height: 32),
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: Obx(() {
-                    return ElevatedButton(
-                      onPressed: controller.currentOtp.value.length ==
-                              controller.otpLength
-                          ? () => controller.verifyOtp()
-                          : null,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue.shade600,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: const Text(
-                        'Verify OTP',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
-                      ),
-                    );
-                  }),
-                ),
+                // SizedBox(
+                //   width: double.infinity,
+                //   height: 50,
+                //   child: Obx(() {
+                //     return ElevatedButton(
+                //       onPressed: controller.currentOtp.value.length ==
+                //               controller.otpLength
+                //           ? () => controller.verifyOtp()
+                //           : null,
+                //       style: ElevatedButton.styleFrom(
+                //         backgroundColor: Colors.blue.shade600,
+                //         foregroundColor: Colors.white,
+                //         shape: RoundedRectangleBorder(
+                //           borderRadius: BorderRadius.circular(12),
+                //         ),
+                //       ),
+                //       child: const Text(
+                //         'Verify OTP',
+                //         style: TextStyle(
+                //             fontSize: 16, fontWeight: FontWeight.w600),
+                //       ),
+                //     );
+                //   }),
+                // ),
                 const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -162,8 +162,6 @@ class OtpVerifyView extends GetView<OtpVerifyController> {
             ),
           ),
         ),
-
-        /// Global Loading Overlay (only one loader)
         Obx(() {
           return controller.isLoading.value
               ? Container(

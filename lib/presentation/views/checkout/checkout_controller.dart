@@ -5,7 +5,7 @@ import 'package:customer_order_app/presentation/views/cart/cart_controller.dart'
 import 'package:get/get.dart';
 
 class CheckoutController extends GetxController {
-  Future<void> placeOrder(List cartItems) async {
+  Future<void> placeOrder(List cartItems, double total) async {
     final user = Get.find<UserController>().user.value;
 
     if (user == null) {
@@ -20,6 +20,7 @@ class CheckoutController extends GetxController {
 
     final items = cartItems
         .map((item) => {
+          
               'product_id': item.product.id,
               'quantity': item.quantity,
             })

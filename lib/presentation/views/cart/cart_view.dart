@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:customer_order_app/core/routes/routes_name.dart';
+import 'package:customer_order_app/core/themes/themes.dart';
 import 'package:customer_order_app/presentation/views/cart/cart_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -188,7 +189,7 @@ class CartView extends GetView<CartController> {
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.deepPurple,
+                        color: Colors.red,
                       ),
                     ),
                   ],
@@ -200,11 +201,13 @@ class CartView extends GetView<CartController> {
                   onPressed: controller.cartList.isEmpty
                       ? null
                       : () {
-                          Get.toNamed(RoutesName.checkoutScreen,
-                              arguments: controller.cartList);
+                          Get.toNamed(
+                            RoutesName.checkoutScreen,
+                            arguments: controller.cartList,
+                          );
                         },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
+                    backgroundColor: ThemesApp.secondaryColor,
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),

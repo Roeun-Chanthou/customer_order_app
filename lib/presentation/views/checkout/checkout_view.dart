@@ -24,10 +24,6 @@ class CheckoutView extends GetView<CheckoutController> {
           duration: const Duration(milliseconds: 400),
           child: const Text(
             'Checkout',
-            style: TextStyle(
-              color: Colors.black87,
-              fontWeight: FontWeight.bold,
-            ),
           ),
         ),
         centerTitle: true,
@@ -97,7 +93,9 @@ class CheckoutView extends GetView<CheckoutController> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => controller.placeOrder(cartItems),
+                onPressed: () {
+                  controller.placeOrder(cartItems, total);
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF2ECC71),
                   padding: const EdgeInsets.symmetric(vertical: 18),

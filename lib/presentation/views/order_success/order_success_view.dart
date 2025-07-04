@@ -8,10 +8,6 @@ class OrderSuccessView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> args = Get.arguments ?? {};
-    final String orderId = args['orderId']?.toString() ?? 'N/A';
-    final double total = args['total']?.toDouble() ?? 0.0;
-
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
@@ -19,16 +15,10 @@ class OrderSuccessView extends StatelessWidget {
           duration: const Duration(milliseconds: 400),
           child: const Text(
             'Order Confirmed',
-            style: TextStyle(
-              color: Colors.black87,
-              fontWeight: FontWeight.bold,
-              fontSize: 22,
-            ),
           ),
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
-        elevation: 0,
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -74,18 +64,6 @@ class OrderSuccessView extends StatelessWidget {
                       color: Colors.black87,
                     ),
                     textAlign: TextAlign.center,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                FadeInUp(
-                  duration: const Duration(milliseconds: 800),
-                  child: Text(
-                    'Total: \$${total.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF2ECC71),
-                    ),
                   ),
                 ),
                 const SizedBox(height: 32),

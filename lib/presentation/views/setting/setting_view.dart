@@ -1,5 +1,5 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:customer_order_app/core/routes/routes_name.dart';
-import 'package:customer_order_app/core/themes/themes.dart';
 import 'package:customer_order_app/data/services/auth_service.dart';
 import 'package:customer_order_app/presentation/controllers/user_controller.dart';
 import 'package:customer_order_app/presentation/views/setting/setting_controller.dart';
@@ -24,24 +24,31 @@ class SettingView extends GetView<SettingController> {
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 24,
+          ),
           children: [
             Center(
               child: Column(
                 children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundColor: ThemesApp.secondaryColor,
-                    backgroundImage: (user!.photo.isNotEmpty)
-                        ? NetworkImage(user.photo)
-                        : null,
-                    child: (user.photo.isEmpty)
-                        ? const Icon(
-                            Icons.person,
-                            size: 50,
-                            color: Colors.white,
-                          )
-                        : null,
+                  FadeInUp(
+                    duration: const Duration(milliseconds: 400),
+                    delay: const Duration(milliseconds: 100),
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundColor: Colors.grey.shade200,
+                      backgroundImage: (user!.photo.isNotEmpty)
+                          ? NetworkImage(user.photo)
+                          : null,
+                      child: (user.photo.isEmpty)
+                          ? const Icon(
+                              Icons.person,
+                              size: 50,
+                              color: Colors.white,
+                            )
+                          : null,
+                    ),
                   ),
                   const SizedBox(height: 12),
                   Text(

@@ -102,6 +102,8 @@ class OtpVerifyController extends GetxController {
           colorText: Colors.white,
         );
 
+        await Future.delayed(const Duration(seconds: 3));
+
         Get.toNamed(RoutesName.setUpAccount, arguments: email);
       } else {
         errorText.value = result['message'] ?? 'Invalid OTP';
