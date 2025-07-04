@@ -1,7 +1,6 @@
 import 'package:customer_order_app/core/routes/routes_name.dart';
 import 'package:customer_order_app/core/themes/themes.dart';
 import 'package:customer_order_app/data/services/auth_service.dart';
-import 'package:customer_order_app/presentation/controllers/theme_controller.dart';
 import 'package:customer_order_app/presentation/controllers/user_controller.dart';
 import 'package:customer_order_app/presentation/views/home/drawer_home/drawer_home_controller.dart';
 import 'package:customer_order_app/presentation/widgets/setting_card.dart';
@@ -16,7 +15,7 @@ class DrawerHomeView extends GetView<DrawerHomeController> {
   Widget build(BuildContext context) {
     final user = Get.find<UserController>().user.value;
     return Drawer(
-      // backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -63,29 +62,49 @@ class DrawerHomeView extends GetView<DrawerHomeController> {
                 ],
               ),
               SizedBox(height: 24),
-              Obx(
-                () => SettingCard(
-                  title: 'Dark Mode',
-                  icon: Icons.dark_mode,
-                  value: Get.find<ThemeController>().isDarkMode.value,
-                  onChanged: (val) => Get.find<ThemeController>().toggleTheme(),
+              // Obx(
+              //   () => SettingCard(
+              //     title: 'Dark Mode',
+              //     icon: Icons.dark_mode,
+              //     value: Get.find<ThemeController>().isDarkMode.value,
+              //     onChanged: (val) => Get.find<ThemeController>().toggleTheme(),
+              //   ),
+              // ),
+              Bounceable(
+                onTap: () {
+                  Get.toNamed(RoutesName.accountInfo);
+                },
+                child: SettingCard(
+                  value: null,
+                  title: 'Account Info',
+                  icon: Icons.info_outline,
+                  onChanged: (value) {},
                 ),
-              ),
-              SettingCard(
-                value: null,
-                title: 'Account Info',
-                icon: Icons.info_outline,
-                onChanged: (value) {},
               ),
               SettingCard(
                 value: null,
                 title: 'Password',
                 icon: Icons.lock_outline,
               ),
-              SettingCard(
-                value: null,
-                title: 'Order',
-                icon: Icons.shopping_cart_outlined,
+              Bounceable(
+                onTap: () {
+                  Get.toNamed(RoutesName.myOrder);
+                },
+                child: SettingCard(
+                  value: null,
+                  title: 'My Order',
+                  icon: Icons.shopping_cart_outlined,
+                ),
+              ),
+              Bounceable(
+                onTap: () {
+                  Get.toNamed(RoutesName.orderHistory);
+                },
+                child: SettingCard(
+                  value: null,
+                  title: 'Order History',
+                  icon: Icons.shopping_cart_outlined,
+                ),
               ),
               SettingCard(
                 value: null,
@@ -96,8 +115,7 @@ class DrawerHomeView extends GetView<DrawerHomeController> {
               Spacer(),
               Bounceable(
                 onTap: () {
-                  AuthService.logout();
-                  Get.offAllNamed(RoutesName.onBording);
+                  _showLogoutDialog();
                 },
                 child: SettingCard(
                   value: null,
@@ -108,6 +126,79 @@ class DrawerHomeView extends GetView<DrawerHomeController> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _showLogoutDialog() {
+    Get.dialog(
+      AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        title: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.red.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Icon(
+                Icons.logout_outlined,
+                color: Colors.red,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            const Text(
+              'Logout',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        content: const Text(
+          'Are you sure you want to logout from your account?',
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.black87,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                color: Colors.grey.shade600,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: TextButton(
+              onPressed: () {
+                AuthService.logout();
+                Get.offAllNamed(RoutesName.onBording);
+              },
+              child: const Text(
+                'Logout',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

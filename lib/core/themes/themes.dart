@@ -1,8 +1,8 @@
-import 'package:flutter/rendering.dart';
+import 'package:flutter/material.dart';
 
 class ThemesApp {
   static const primaryColor = Color(0xFFF5F6FA);
-  static const secondaryColor = Color(0xFF9775FA);
+  static const secondaryColor = Colors.blueAccent;
   static const backgroundColor = Color(0xFF8F959E);
   static const cardColor = Color(0xFF1D1E20);
   static const buttonColor = Color(0xFF8F959E);

@@ -1,7 +1,6 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:customer_order_app/presentation/controllers/user_controller.dart';
 import 'package:customer_order_app/presentation/views/auth/success_login/success_login_controller.dart';
-import 'package:customer_order_app/presentation/views/main_screen/main_screen_controller.dart';
 import 'package:customer_order_app/presentation/views/main_screen/main_screen_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +11,6 @@ class SuccessLoginView extends GetView<SuccessLoginController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => MainScreenController());
     final user = Get.find<UserController>().user.value;
     return AnimatedSplashScreen(
       splash: Column(

@@ -9,30 +9,31 @@ class OtpForgetPsController extends GetxController {
   final int otpLength;
   final String email;
 
-  var timerSeconds = 30.obs;
+  var timerSeconds = 60.obs;
   var isResendEnabled = false.obs;
   var errorText = RxnString(null);
   var isLoading = false.obs;
   var currentOtp = ''.obs;
 
   late List<TextEditingController> otpControllers;
-  late List<FocusNode> focusNodes;
+  late List<FocusNode> otpFocusNodes;
 
   Timer? _timer;
 
-  OtpForgetPsController({this.otpLength = 6, this.email = ''});
+  OtpForgetPsController({
+    required this.email,
+    this.otpLength = 6,
+  });
+
+  OtpForgetPsController.fromArguments()
+      : email = Get.arguments as String? ?? '',
+        otpLength = 6;
 
   @override
   void onInit() {
     super.onInit();
     _initializeControllers();
     startTimer();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    resetScreen();
   }
 
   @override
@@ -43,40 +44,23 @@ class OtpForgetPsController extends GetxController {
   }
 
   void _initializeControllers() {
-    otpControllers = List.generate(otpLength, (_) => TextEditingController());
-    focusNodes = List.generate(otpLength, (_) => FocusNode());
-
-    for (int i = 0; i < otpControllers.length; i++) {
-      otpControllers[i].addListener(() {
-        _updateCurrentOtp();
-        _clearError();
-      });
-    }
+    otpControllers =
+        List.generate(otpLength, (index) => TextEditingController());
+    otpFocusNodes = List.generate(otpLength, (index) => FocusNode());
   }
 
   void _disposeControllers() {
     for (var controller in otpControllers) {
       controller.dispose();
     }
-    for (var node in focusNodes) {
-      node.dispose();
-    }
-  }
-
-  void _updateCurrentOtp() {
-    currentOtp.value = otpControllers.map((c) => c.text).join();
-  }
-
-  void _clearError() {
-    if (errorText.value != null) {
-      errorText.value = null;
+    for (var focusNode in otpFocusNodes) {
+      focusNode.dispose();
     }
   }
 
   void startTimer() {
-    _timer?.cancel();
-    timerSeconds.value = 30;
     isResendEnabled.value = false;
+    timerSeconds.value = 60;
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (timerSeconds.value > 0) {
@@ -88,145 +72,92 @@ class OtpForgetPsController extends GetxController {
     });
   }
 
-  bool isAllFieldsFilled() {
-    return otpControllers.every((controller) => controller.text.isNotEmpty);
+  void updateOtp(String otp) {
+    currentOtp.value = otp;
+    errorText.value = null;
   }
 
-  String getCurrentOtp() {
-    return otpControllers.map((controller) => controller.text).join();
-  }
+  Future<void> verifyOtpForgetPS() async {
+    if (currentOtp.value.length != otpLength) {
+      errorText.value = 'Please enter complete OTP';
+      return;
+    }
 
-  Future<void> verifyOtp() async {
+    isLoading.value = true;
+    errorText.value = null;
+
     try {
-      errorText.value = null;
+      final result =
+          await AuthService.verifyOtpPS(email.trim(), currentOtp.value.trim());
 
-      if (!isAllFieldsFilled()) {
-        errorText.value = 'Please enter the complete OTP';
-        return;
-      }
+      isLoading.value = false;
 
-      String otp = getCurrentOtp();
-
-      if (otp.length != otpLength) {
-        errorText.value = 'Please enter a valid $otpLength-digit OTP';
-        return;
-      }
-
-      isLoading.value = true;
-      final result = await AuthService.verifyUser(email, otp);
       if (result['success'] == true) {
-        // Success logic
+        Get.snackbar(
+          'Success',
+          result['message'] ?? 'Verification successful',
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+
+        Get.toNamed(
+          RoutesName.newPS,
+          arguments: email,
+        );
       } else {
-        // Show result['message']
+        errorText.value = result['message'] ?? 'Invalid OTP';
       }
-
-      Get.snackbar(
-        'Success',
-        'OTP verified successfully!',
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-      );
-
-      Get.toNamed(RoutesName.newPS);
     } catch (e) {
-      errorText.value = 'An error occurred. Please try again.';
-      print('OTP Verification Error: $e');
+      errorText.value = 'Verification failed. Please try again.';
     } finally {
       isLoading.value = false;
     }
   }
 
-  Future<void> resendOtp() async {
+  Future<void> resendOtpForgetPS() async {
+    if (!isResendEnabled.value) return;
+
+    isLoading.value = true;
+
     try {
-      if (!isResendEnabled.value) return;
+      final result = await AuthService.requestRestPS(email.trim());
 
-      isLoading.value = true;
-      errorText.value = null;
-
-      // await Future.delayed(const Duration(seconds: 1));
-
-      // Example of API call structure:
-      // final response = await apiService.resendOtp(email: email);
-      // if (response.isSuccess) {
-      //   // Handle success
-      // } else {
-      //   errorText.value = response.message ?? 'Failed to resend OTP';
-      //   return;
-      // }
-
+      if (result['success'] == true) {
+        Get.snackbar(
+          'OTP Sent',
+          result['message'] ?? 'New OTP has been sent to your email',
+          backgroundColor: Colors.blue,
+          colorText: Colors.white,
+        );
+        startTimer();
+        clearOtp();
+      } else {
+        Get.snackbar(
+          'Error',
+          result['message'] ?? 'Failed to resend OTP',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
+    } catch (e) {
       Get.snackbar(
-        'OTP Sent',
-        'A new OTP has been sent to your email',
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.blue,
+        'Error',
+        'Network error occurred',
+        backgroundColor: Colors.red,
         colorText: Colors.white,
       );
-
-      resetScreen();
-    } catch (e) {
-      errorText.value = 'Failed to resend OTP. Please try again.';
-      print('Resend OTP Error: $e');
     } finally {
       isLoading.value = false;
     }
   }
 
-  void resetScreen() {
-    _timer?.cancel();
-
+  void clearOtp() {
+    currentOtp.value = '';
     for (var controller in otpControllers) {
       controller.clear();
     }
-
-    if (focusNodes.isNotEmpty) {
-      focusNodes.first.requestFocus();
-    }
-
-    errorText.value = null;
-    isResendEnabled.value = false;
-    isLoading.value = false;
-    currentOtp.value = '';
-
-    startTimer();
-  }
-
-  void clearAllFields() {
-    for (var controller in otpControllers) {
-      controller.clear();
-    }
-    currentOtp.value = '';
-    errorText.value = null;
-    if (focusNodes.isNotEmpty) {
-      focusNodes.first.requestFocus();
-    }
-  }
-
-  void pasteOtp(String otp) {
-    if (otp.length == otpLength) {
-      for (int i = 0; i < otpLength; i++) {
-        otpControllers[i].text = otp[i];
-      }
-      _updateCurrentOtp();
-      if (isAllFieldsFilled()) {
-        verifyOtp();
-      }
-    }
-  }
-
-  void handleExternalOtpInput(String otp) {
-    if (otp.isNotEmpty && otp.length <= otpLength) {
-      clearAllFields();
-      for (int i = 0; i < otp.length && i < otpLength; i++) {
-        otpControllers[i].text = otp[i];
-      }
-
-      _updateCurrentOtp();
-
-      int nextIndex = otp.length < otpLength ? otp.length : otpLength - 1;
-      if (nextIndex < focusNodes.length) {
-        focusNodes[nextIndex].requestFocus();
-      }
+    if (otpFocusNodes.isNotEmpty) {
+      otpFocusNodes.first.requestFocus();
     }
   }
 }

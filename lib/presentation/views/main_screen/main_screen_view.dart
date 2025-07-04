@@ -1,9 +1,11 @@
+import 'package:customer_order_app/core/routes/routes_name.dart';
 import 'package:customer_order_app/core/themes/themes.dart';
+import 'package:customer_order_app/presentation/controllers/user_controller.dart';
+import 'package:customer_order_app/presentation/views/cart/cart_controller.dart';
 import 'package:customer_order_app/presentation/views/home/drawer_home/drawer_home_view.dart';
 import 'package:customer_order_app/presentation/views/main_screen/main_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class MainScreenView extends GetView<MainScreenController> {
@@ -14,7 +16,7 @@ class MainScreenView extends GetView<MainScreenController> {
     return Obx(
       () {
         return Scaffold(
-          // backgroundColor: Colors.white,
+          backgroundColor: Colors.white,
           appBar: controller.currenIndex.value == 0 ? _buildAppBar() : null,
           drawer: controller.currenIndex.value == 0 ? DrawerHomeView() : null,
           body: IndexedStack(
@@ -22,7 +24,7 @@ class MainScreenView extends GetView<MainScreenController> {
             children: controller.list,
           ),
           bottomNavigationBar: BottomNavigationBar(
-            // backgroundColor: Colors.white,
+            backgroundColor: Colors.white,
             type: BottomNavigationBarType.fixed,
             currentIndex: controller.currenIndex.value,
             onTap: (index) => controller.currenIndex.value = index,
@@ -57,14 +59,14 @@ class MainScreenView extends GetView<MainScreenController> {
               BottomNavigationBarItem(
                 icon: controller.currenIndex.value == 2
                     ? Icon(
-                        Icons.shopping_cart,
+                        Icons.settings,
                         size: 26,
                       )
                     : Icon(
-                        Icons.shopping_cart_outlined,
+                        Icons.settings_outlined,
                         size: 26,
                       ),
-                label: 'Cart',
+                label: 'Settings',
               ),
             ],
           ),
@@ -74,53 +76,78 @@ class MainScreenView extends GetView<MainScreenController> {
   }
 
   AppBar _buildAppBar() {
+    final user = Get.find<UserController>().user.value;
     return AppBar(
       forceMaterialTransparency: true,
       centerTitle: false,
-      leading: Builder(
-        builder: (context) {
-          return Bounceable(
-            onTap: () {
-              Scaffold.of(context).openDrawer();
-            },
-            child: Container(
-              margin: const EdgeInsets.only(left: 12),
-              height: 45,
-              width: 45,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                // color: Colors.white,
-                color: ThemesApp.secondaryColor,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: SvgPicture.asset(
-                  'assets/icons/menu copy.svg',
-                  // width: 24,
-                  // height: 24,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          );
-        },
+      title: Text(
+        "Hello, ${user?.fullName ?? ''}!",
+        style: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 12.0),
+        child: Image.asset('assets/logo/Group 288870.png'),
       ),
       actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 16),
-          child: Container(
-            height: 45,
-            width: 45,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: ThemesApp.secondaryColor,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Icon(
-                Icons.shopping_bag,
-                color: Colors.white,
-              ),
+        Bounceable(
+          onTap: () {
+            Get.toNamed(RoutesName.cartScreen);
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  height: 45,
+                  width: 45,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.blueAccent,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Icon(
+                      Icons.shopping_bag,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                // Badge
+                Positioned(
+                  right: 4,
+                  top: 4,
+                  child: Obx(() {
+                    final cartCount =
+                        Get.find<CartController>().cartList.length;
+                    return cartCount > 0
+                        ? Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            constraints: const BoxConstraints(
+                              minWidth: 20,
+                              minHeight: 20,
+                            ),
+                            child: Text(
+                              '$cartCount',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                        : const SizedBox.shrink();
+                  }),
+                ),
+              ],
             ),
           ),
         ),

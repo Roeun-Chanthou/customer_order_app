@@ -9,25 +9,22 @@ class OtpVerifyController extends GetxController {
   final int otpLength;
   final String email;
 
-  var timerSeconds = 30.obs;
+  var timerSeconds = 60.obs;
   var isResendEnabled = false.obs;
   var errorText = RxnString(null);
   var isLoading = false.obs;
   var currentOtp = ''.obs;
 
-  // Controllers and focus nodes for OTP input
   late List<TextEditingController> otpControllers;
   late List<FocusNode> otpFocusNodes;
 
   Timer? _timer;
 
-  // Constructor with required parameters
   OtpVerifyController({
     required this.email,
     this.otpLength = 6,
   });
 
-  // Alternative constructor for GetX arguments
   OtpVerifyController.fromArguments()
       : email = Get.arguments as String? ?? '',
         otpLength = 6;
@@ -63,7 +60,7 @@ class OtpVerifyController extends GetxController {
 
   void startTimer() {
     isResendEnabled.value = false;
-    timerSeconds.value = 30;
+    timerSeconds.value = 60;
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (timerSeconds.value > 0) {
@@ -90,8 +87,12 @@ class OtpVerifyController extends GetxController {
     errorText.value = null;
 
     try {
-      final result =
-          await AuthService.verifyUser(email.trim(), currentOtp.value.trim());
+      final result = await AuthService.verifyUser(
+        email.trim(),
+        currentOtp.value.trim(),
+      );
+
+      isLoading.value = false;
 
       if (result['success'] == true) {
         Get.snackbar(
@@ -118,22 +119,29 @@ class OtpVerifyController extends GetxController {
     isLoading.value = true;
 
     try {
-      // Call your resend OTP API here
-      // final result = await AuthService.resendOtp(email);
+      final result = await AuthService.resendOtp(email.trim());
 
-      Get.snackbar(
-        'OTP Sent',
-        'New OTP has been sent to your email',
-        backgroundColor: Colors.blue,
-        colorText: Colors.white,
-      );
-
-      startTimer();
-      clearOtp();
+      if (result['success'] == true) {
+        Get.snackbar(
+          'OTP Sent',
+          result['message'] ?? 'New OTP has been sent to your email',
+          backgroundColor: Colors.blue,
+          colorText: Colors.white,
+        );
+        startTimer();
+        clearOtp();
+      } else {
+        Get.snackbar(
+          'Error',
+          result['message'] ?? 'Failed to resend OTP',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
     } catch (e) {
       Get.snackbar(
         'Error',
-        'Failed to resend OTP',
+        'Network error occurred',
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );

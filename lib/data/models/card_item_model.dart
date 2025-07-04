@@ -9,12 +9,12 @@ class CartItem {
     required this.quantity,
   });
 
-  String get totalPrice => product.price * quantity;
+  double get totalPrice =>
+      (double.tryParse(product.price.toString()) ?? 0) * quantity;
 
-  // For JSON serialization if needed
   Map<String, dynamic> toJson() {
     return {
-      'product': product.toJson(), // Assuming ProductModel has toJson method
+      'product': product.toJson(),
       'quantity': quantity,
     };
   }

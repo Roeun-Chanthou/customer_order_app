@@ -11,48 +11,67 @@ class ForgetPsView extends GetView<ForgetPsController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text("Forget Password")),
-      body: Form(
-        key: formKey,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Please fill your email to go to next step"),
-              SizedBox(height: 20),
-              CustomTextField(
-                hintText: "Enter your email",
-                prefixIcon: Icon(Icons.email_outlined),
-                shakeAnimation: controller.shakeAnimation,
-                controller: controller.txtEmailCtl,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  } else if (!GetUtils.isEmail(value)) {
-                    return 'Please enter a valid email';
-                  }
-                  return null;
-                },
+    return Stack(
+      children: [
+        Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text("Forget Password"),
+            backgroundColor: Colors.white,
+          ),
+          body: Form(
+            key: formKey,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Please fill your email to go to next step"),
+                  SizedBox(height: 20),
+                  CustomTextField(
+                    hintText: "Enter your email",
+                    prefixIcon: Icon(Icons.email_outlined),
+                    shakeAnimation: controller.shakeAnimation,
+                    controller: controller.txtEmailCtl,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your email';
+                      } else if (!GetUtils.isEmail(value)) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 45),
+                  CustomButton(
+                    backgroundColor: ThemesApp.secondaryColor,
+                    textColor: Colors.white,
+                    text: 'Submit',
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        controller.submitEmailClick();
+                      } else {
+                        controller.triggerShake();
+                      }
+                    },
+                  ),
+                ],
               ),
-              SizedBox(height: 45),
-              CustomButton(
-                backgroundColor: ThemesApp.textSuccessColor,
-                textColor: Colors.white,
-                text: 'Submit',
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    controller.submitEmailClick();
-                  } else {
-                    controller.triggerShake();
-                  }
-                },
-              ),
-            ],
+            ),
           ),
         ),
-      ),
+        Obx(
+          () => controller.isLoading.value
+              ? Container(
+                  color: Colors.black.withOpacity(0.3),
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : const SizedBox.shrink(),
+        ),
+      ],
     );
   }
 }

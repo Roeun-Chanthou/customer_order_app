@@ -30,24 +30,9 @@ class ProductModel {
     required this.createdAt,
     required this.updatedAt,
     this.category = 'Other',
-    this.categoryId = 0, // <-- Add this
+    this.categoryId = 0,
   });
 
-  // factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
-  //       id: json["id"],
-  //       cid: json['cid'],
-  //       name: json["name"],
-  //       description: json["description"],
-  //       price: json["price"],
-  //       stock: json["stock"],
-  //       image: json["image"],
-  //       createdAt: json["created_at"] ?? '',
-  //       updatedAt: json["updated_at"] ?? '',
-  //       category: json["category"] is Map
-  //           ? (json["category"]["name"] ?? 'Other')
-  //           : (json["category"] ?? 'Other'),
-  //       categoryId: json["category"] is Map ? (json["category"]["id"] ?? 0) : 0,
-  //     );
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         id: json["id"] ?? 0,
         cid: json['cid'] ?? 0,
@@ -63,8 +48,7 @@ class ProductModel {
             : (json["category"] ?? 'Other'),
         categoryId: json["category"] is Map
             ? (json["category"]["id"] ?? 0)
-            : (json["categoryId"] ??
-                0), // <-- Fix: fallback to categoryId if not a Map
+            : (json["categoryId"] ?? 0),
       );
 
   Map<String, dynamic> toJson() => {

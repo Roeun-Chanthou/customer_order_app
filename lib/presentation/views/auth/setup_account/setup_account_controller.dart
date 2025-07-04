@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:customer_order_app/core/routes/routes_name.dart';
 import 'package:customer_order_app/data/services/auth_service.dart';
 import 'package:customer_order_app/presentation/controllers/user_controller.dart';
+import 'package:customer_order_app/presentation/views/cart/cart_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,6 +19,8 @@ class SetupAccountController extends GetxController
   final RxBool isFormFilled = false.obs;
   late AnimationController _animationController;
   late Animation<double> shakeAnimation;
+
+  var isLoading = false.obs;
 
   final picker = ImagePicker();
 
@@ -49,13 +52,16 @@ class SetupAccountController extends GetxController
   }
 
   Future<void> submitAccountSetup() async {
+    isLoading.value = true;
+
     final result = await AuthService.setupAccount(
       fullName: fullName.text.trim(),
       email: Get.arguments ?? '',
       gender: selectedGender.value,
       phone: phone.text.trim(),
-      photo: imageUrl.value.isNotEmpty ? imageUrl.value : null,
+      photoFile: imageFile.value,
     );
+    isLoading.value = false;
 
     if (result['success'] == true) {
       if (result['data'] != null) {
@@ -64,8 +70,9 @@ class SetupAccountController extends GetxController
         await prefs.setString('userData', jsonEncode(result['data']));
         final userController = Get.find<UserController>();
         userController.setUserFromJson(result['data']);
+        Get.find<CartController>().loadCart();
       }
-      Get.offAllNamed(RoutesName.mainScreen);
+      Get.offAllNamed(RoutesName.loginScreen);
     } else {
       Get.snackbar('Error',
           result['error'] ?? result['message'] ?? 'Account setup failed');
@@ -74,7 +81,10 @@ class SetupAccountController extends GetxController
   }
 
   void profileClick() async {
-    var image = await picker.pickImage(source: ImageSource.gallery);
+    var image = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 60,
+    );
     if (image == null) return;
     imageFile.value = File(image.path);
   }

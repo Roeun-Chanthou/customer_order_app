@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:customer_order_app/core/routes/routes_name.dart';
 import 'package:customer_order_app/data/models/product_model.dart';
 import 'package:customer_order_app/presentation/views/home/home_screen/home_controller.dart';
@@ -13,7 +14,9 @@ class WishlistView extends GetView<WishlistController> {
   Widget build(BuildContext context) {
     final homeController = Get.find<HomeController>();
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text("Wishlist"),
         forceMaterialTransparency: true,
       ),
@@ -39,7 +42,12 @@ class WishlistView extends GetView<WishlistController> {
           itemCount: homeController.wishlist.length,
           itemBuilder: (context, index) {
             var product = homeController.wishlist[index];
-            return _buildGridProduct(product);
+            return FadeInDown(
+              duration: Duration(
+                milliseconds: 300 + (index * 100),
+              ),
+              child: _buildGridProduct(product),
+            );
           },
         );
       }),

@@ -14,3 +14,13 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+Future Plane
+
+You may want to add in the future:
+
+Order cancellation (PATCH /orders/{oid}/cancel)
+Order status update (PATCH /orders/{oid}/status)
+Payment integration endpoints
+Shipping/tracking endpoints

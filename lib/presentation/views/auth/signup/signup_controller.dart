@@ -99,14 +99,22 @@ class SignUpController extends GetxController
     );
     isLoading.value = false;
 
+    final message = result['message']?.toString() ?? '';
+    if (message.contains('already exists') ||
+        message.contains('already verified')) {
+      Get.snackbar('Error', message);
+      triggerShake();
+      return;
+    }
+
     if (result['success'] == true) {
       final email = emailController.text.trim();
       Get.put(OtpVerifyController(email: email));
-
       Get.toNamed(RoutesName.otpVerify, arguments: email);
       clearForm();
     } else {
-      Get.snackbar('Error', result['message'] ?? 'Registration failed');
+      Get.snackbar(
+          'Error', message.isNotEmpty ? message : 'Registration failed');
       triggerShake();
     }
   }

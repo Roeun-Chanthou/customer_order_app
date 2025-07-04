@@ -9,8 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController extends GetxController {
   var isLoading = false.obs;
-  // static const String wishlistKey = 'wishlist';
-
   var wishlist = <ProductModel>[].obs;
 
   var products = <ProductModel>[].obs;
@@ -77,37 +75,9 @@ class HomeController extends GetxController {
                   .contains(searchText.value.toLowerCase()))
           .toList();
     }
+    temp.sort((a, b) => b.id.compareTo(a.id));
     filteredProducts.assignAll(temp);
   }
-
-  // void filterProducts() {
-  //   final user = Get.find<UserController>().user.value;
-  //   List<ProductModel> temp = products;
-  //   if (user != null) {
-  //     temp = temp.where((p) => p.cid == user.cid).toList();
-
-  //     print('Current user cid: ${user.cid}');
-  //     for (var p in products) {
-  //       print('Product: ${p.name}, cid: ${p.cid}');
-  //     }
-  //   }
-
-  //   // ...existing category and search filter...
-  //   if (selectedCategoryId.value != 0) {
-  //     temp =
-  //         temp.where((p) => p.categoryId == selectedCategoryId.value).toList();
-  //   }
-  //   if (searchText.value.isNotEmpty) {
-  //     temp = temp
-  //         .where((p) =>
-  //             p.name.toLowerCase().contains(searchText.value.toLowerCase()) ||
-  //             p.description
-  //                 .toLowerCase()
-  //                 .contains(searchText.value.toLowerCase()))
-  //         .toList();
-  //   }
-  //   filteredProducts.assignAll(temp);
-  // }
 
   void setCategory(int id) {
     selectedCategoryId.value = id;
@@ -151,21 +121,6 @@ class HomeController extends GetxController {
   bool isWishlisted(String id) {
     return wishlist.any((p) => p.id.toString() == id);
   }
-
-  // Future<void> saveWishlist() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final wishlistJson = wishlist.map((p) => jsonEncode(p.toJson())).toList();
-  //   await prefs.setStringList(wishlistKey, wishlistJson);
-  // }
-
-  // Future<void> loadWishlist() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final wishlistJson = prefs.getStringList(wishlistKey) ?? [];
-  //   final loadedWishlist = wishlistJson
-  //       .map((item) => ProductModel.fromJson(jsonDecode(item)))
-  //       .toList();
-  //   wishlist.assignAll(loadedWishlist);
-  // }
 
   Future<void> saveWishlist() async {
     final prefs = await SharedPreferences.getInstance();

@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 class OtpForgetPsBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => OtpForgetPsController());
+    Get.lazyPut<OtpForgetPsController>(
+      () => OtpForgetPsController.fromArguments(),
+    );
   }
 }

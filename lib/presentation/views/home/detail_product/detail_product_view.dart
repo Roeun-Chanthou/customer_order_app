@@ -18,7 +18,7 @@ class DetailProductView extends GetView<DetailProductController> {
     CustomSize.init(context);
 
     return Scaffold(
-      // backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
           _buildSliverAppBar(products),
@@ -37,7 +37,7 @@ class DetailProductView extends GetView<DetailProductController> {
                           style: const TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
-                            // color: Colors.black87,
+                            color: Colors.black87,
                           ),
                         ),
                       ),
@@ -226,15 +226,9 @@ class DetailProductView extends GetView<DetailProductController> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-          // color: Colors.white,
-          // boxShadow: [
-          //   BoxShadow(
-          //     // color: Colors.black.withOpacity(0.1),
-          //     blurRadius: 10,
-          //     offset: const Offset(0, -5),
-          //   ),
-          // ],
-          ),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: SafeArea(
         child: Row(
           children: [
@@ -279,7 +273,10 @@ class DetailProductView extends GetView<DetailProductController> {
             Expanded(
               child: Bounceable(
                 onTap: products.stock > 0
-                    ? () => controller.buyNow(products)
+                    ? () => controller.buyNow(
+                          products,
+                          int.parse(controller.quantity.value.toString()),
+                        )
                     : null,
                 child: Container(
                   height: 56,
@@ -318,7 +315,7 @@ class DetailProductView extends GetView<DetailProductController> {
       forceMaterialTransparency: true,
       expandedHeight: CustomSize.screenHeight * 0.4,
       pinned: true,
-      // backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       elevation: 0,
       leading: Padding(
         padding: const EdgeInsets.only(left: 16),
@@ -348,7 +345,8 @@ class DetailProductView extends GetView<DetailProductController> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Bounceable(
             onTap: () {
-              controller.toggleFavorite(homeController.wishlist.string);
+              final homeController = Get.find<HomeController>();
+              homeController.toggleWishlist(products);
             },
             child: Obx(
               () {
@@ -402,7 +400,7 @@ class DetailProductView extends GetView<DetailProductController> {
                 bottomRight: Radius.circular(20),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(40.0),
                 child: Image.network(
                   products.image,
                   fit: BoxFit.cover,

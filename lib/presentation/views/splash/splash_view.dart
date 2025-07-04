@@ -10,6 +10,7 @@ class SplashView extends StatelessWidget {
     Get.put(SplashController());
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

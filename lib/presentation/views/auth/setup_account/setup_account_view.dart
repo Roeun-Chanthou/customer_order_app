@@ -14,130 +14,124 @@ class SetupAccountView extends GetView<SetupAccountController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        forceMaterialTransparency: true,
-        backgroundColor: Colors.white,
-        title: Text('Setup Account'),
-      ),
-      body: Form(
-        key: formKey,
-        child: Obx(() {
-          return SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            physics: AlwaysScrollableScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Setup your account',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'setup your account first before you can use this account',
-                  style: TextStyle(),
-                ),
-                const SizedBox(height: 32),
-                _buildUserImage(),
-                const SizedBox(height: 12),
-                Center(
-                  child: Bounceable(
-                    onTap: () => controller.profileClick(),
-                    child: Text(
-                      "Change photo profile",
-                      style: TextStyle(color: Colors.blue),
+    return Stack(
+      children: [
+        Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            forceMaterialTransparency: true,
+            backgroundColor: Colors.white,
+            title: Text('Setup Account'),
+          ),
+          body: Form(
+            key: formKey,
+            child: Obx(() {
+              return SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Setup your account',
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                     ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'setup your account first before you can use this account',
+                      style: TextStyle(),
+                    ),
+                    const SizedBox(height: 32),
+                    _buildUserImage(),
+                    const SizedBox(height: 12),
+                    Center(
+                      child: Bounceable(
+                        onTap: () => controller.profileClick(),
+                        child: Text(
+                          "Change photo profile",
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 32),
+                    Text('Full name'),
+                    SizedBox(height: 8),
+                    AnimatedBuilder(
+                      animation: controller.shakeAnimation,
+                      builder: (context, child) {
+                        return Transform.translate(
+                          offset: Offset(controller.shakeAnimation.value, 0),
+                          child: child,
+                        );
+                      },
+                      child: CustomTextField(
+                        controller: controller.fullName,
+                        hintText: 'Enter full name',
+                        validator: controller.validateFullName,
+                      ),
+                    ),
+                    SizedBox(height: 24),
+                    Text('Gender'),
+                    SizedBox(height: 8),
+                    GenderDropdown(
+                      labelText: 'Gender',
+                      selectedGender: controller.selectedGender.value,
+                      onChanged: (value) {
+                        if (value != null) controller.updateGender(value);
+                      },
+                      validator: controller.validateGender,
+                      genderOptions: const ['male', 'female', 'other'],
+                    ),
+                    const SizedBox(height: 24),
+                    Text('Phone Number'),
+                    SizedBox(height: 8),
+                    AnimatedBuilder(
+                      animation: controller.shakeAnimation,
+                      builder: (context, child) {
+                        return Transform.translate(
+                          offset: Offset(controller.shakeAnimation.value, 0),
+                          child: child,
+                        );
+                      },
+                      child: CustomTextField(
+                        keyboardtype: TextInputType.numberWithOptions(),
+                        controller: controller.phone,
+                        hintText: 'Enter phone number',
+                        validator: controller.validatePhone,
+                      ),
+                    ),
+                    SizedBox(height: 40),
+                    CustomButton(
+                      text: "Submit",
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          // Get.toNamed(RoutesName.successAcc);
+                          controller.submitAccountSetup();
+                        } else {
+                          controller.triggerShake();
+                        }
+                      },
+                      backgroundColor: ThemesApp.textSuccessColor,
+                      textColor: Colors.white,
+                    ),
+                  ],
+                ),
+              );
+            }),
+          ),
+        ),
+        Obx(
+          () => controller.isLoading.value
+              ? Container(
+                  color: Colors.black.withOpacity(0.3),
+                  child: const Center(
+                    child: CircularProgressIndicator(),
                   ),
-                ),
-                SizedBox(height: 32),
-                Text('Full name'),
-                SizedBox(height: 8),
-                AnimatedBuilder(
-                  animation: controller.shakeAnimation,
-                  builder: (context, child) {
-                    return Transform.translate(
-                      offset: Offset(controller.shakeAnimation.value, 0),
-                      child: child,
-                    );
-                  },
-                  child: CustomTextField(
-                    controller: controller.fullName,
-                    hintText: 'Enter full name',
-                    validator: controller.validateFullName,
-                  ),
-                ),
-                SizedBox(height: 24),
-                Text('Gender'),
-                SizedBox(height: 8),
-                // AnimatedBuilder(
-                //   animation: controller.shakeAnimation,
-                //   builder: (context, child) {
-                //     return Transform.translate(
-                //       offset: Offset(controller.shakeAnimation.value, 0),
-                //       child: child,
-                //     );
-                //   },
-                //   child: Obx(
-                //     () => GenderDropdown(
-                //       labelText: 'Gender',
-                //       selectedGender: controller.selectedGender.value,
-                //       onChanged: (value) {
-                //         if (value != null) {
-                //           controller.updateGender(value);
-                //         }
-                //       },
-                //       validator: controller.validateGender,
-                //     ),
-                //   ),
-                // ),
-                GenderDropdown(
-                  labelText: 'Gender',
-                  selectedGender: controller.selectedGender.value,
-                  onChanged: (value) {
-                    if (value != null) controller.updateGender(value);
-                  },
-                  validator: controller.validateGender,
-                  genderOptions: const ['male', 'female', 'other'],
-                ),
-                const SizedBox(height: 24),
-                Text('Phone Number'),
-                SizedBox(height: 8),
-                AnimatedBuilder(
-                  animation: controller.shakeAnimation,
-                  builder: (context, child) {
-                    return Transform.translate(
-                      offset: Offset(controller.shakeAnimation.value, 0),
-                      child: child,
-                    );
-                  },
-                  child: CustomTextField(
-                    keyboardtype: TextInputType.numberWithOptions(),
-                    controller: controller.phone,
-                    hintText: 'Enter phone number',
-                    validator: controller.validatePhone,
-                  ),
-                ),
-                SizedBox(height: 40),
-                CustomButton(
-                  text: "Submit",
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      // Get.toNamed(RoutesName.successAcc);
-                      controller.submitAccountSetup();
-                    } else {
-                      controller.triggerShake();
-                    }
-                  },
-                  backgroundColor: ThemesApp.textSuccessColor,
-                  textColor: Colors.white,
-                ),
-              ],
-            ),
-          );
-        }),
-      ),
+                )
+              : const SizedBox.shrink(),
+        ),
+      ],
     );
   }
 

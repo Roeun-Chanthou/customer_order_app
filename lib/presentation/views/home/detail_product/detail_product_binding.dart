@@ -7,3 +7,4 @@ class DetailProductBinding extends Bindings {
     Get.lazyPut(() => DetailProductController());
   }
 }
+

@@ -28,4 +28,13 @@ class RoutesName {
   static String setUpAccount = "/setUpAccount";
   static String successAcc = "/successAcc";
   static String successLogin = "/successLogin";
+  static String card = "/card";
+  static String checkoutScreen = "/checkoutScreen";
+  static String successCheckout = "/successCheckout";
+  static String orderHistory = "/orderHistory";
+  static String orderDetail = "/orderDetail";
+  static String orderSuccess = "/orderSuccess";
+  static String myOrder = "/myOrder";
+  static String accountInfo = "/accountInfo";
+  static String aboutUs = "/aboutUs";
 }

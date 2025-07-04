@@ -1,4 +1,8 @@
 import 'package:customer_order_app/core/routes/routes_name.dart';
+import 'package:customer_order_app/presentation/views/about_us/about_us_binding.dart';
+import 'package:customer_order_app/presentation/views/about_us/about_us_view.dart';
+import 'package:customer_order_app/presentation/views/account_info/account_info_binding.dart';
+import 'package:customer_order_app/presentation/views/account_info/account_info_view.dart';
 import 'package:customer_order_app/presentation/views/auth/create_new_ps/create_new_ps_binding.dart';
 import 'package:customer_order_app/presentation/views/auth/create_new_ps/create_new_ps_view.dart';
 import 'package:customer_order_app/presentation/views/auth/forget_ps/forget_ps_binding.dart';
@@ -21,12 +25,23 @@ import 'package:customer_order_app/presentation/views/auth/success_login/success
 import 'package:customer_order_app/presentation/views/auth/success_login/success_login_view.dart';
 import 'package:customer_order_app/presentation/views/cart/cart_binding.dart';
 import 'package:customer_order_app/presentation/views/cart/cart_view.dart';
+import 'package:customer_order_app/presentation/views/checkout/checkout_binding.dart';
+import 'package:customer_order_app/presentation/views/checkout/checkout_view.dart';
 import 'package:customer_order_app/presentation/views/home/detail_product/detail_product_binding.dart';
 import 'package:customer_order_app/presentation/views/home/detail_product/detail_product_view.dart';
 import 'package:customer_order_app/presentation/views/home/home_screen/home_binding.dart';
 import 'package:customer_order_app/presentation/views/home/home_screen/home_view.dart';
 import 'package:customer_order_app/presentation/views/main_screen/main_screen_binding.dart';
 import 'package:customer_order_app/presentation/views/main_screen/main_screen_view.dart';
+import 'package:customer_order_app/presentation/views/order_history/order_history_binding.dart';
+import 'package:customer_order_app/presentation/views/order_history/order_history_view.dart';
+import 'package:customer_order_app/presentation/views/order_success/order_success_view.dart';
+import 'package:customer_order_app/presentation/views/orderdetail/orderdetail_binding.dart';
+import 'package:customer_order_app/presentation/views/orderdetail/orderdetail_view.dart';
+import 'package:customer_order_app/presentation/views/search/search_binding.dart';
+import 'package:customer_order_app/presentation/views/search/search_view.dart';
+import 'package:customer_order_app/presentation/views/setting/setting_binding.dart';
+import 'package:customer_order_app/presentation/views/setting/setting_view.dart';
 import 'package:customer_order_app/presentation/views/splash/splash_binding.dart';
 import 'package:customer_order_app/presentation/views/splash/splash_view.dart';
 import 'package:customer_order_app/presentation/views/wishlist/wishlist_binding.dart';
@@ -116,6 +131,51 @@ class RoutesApp {
       name: RoutesName.successLogin,
       page: () => SuccessLoginView(),
       binding: SuccessLoginBinding(),
+    ),
+    GetPage(
+      name: RoutesName.settingsScreen,
+      page: () => SettingView(),
+      binding: SettingBinding(),
+    ),
+    GetPage(
+      name: RoutesName.card,
+      page: () => CartView(),
+      binding: CartBinding(),
+    ),
+    GetPage(
+      name: RoutesName.checkoutScreen,
+      page: () => CheckoutView(),
+      binding: CheckoutBinding(),
+    ),
+    GetPage(
+      name: RoutesName.orderHistory,
+      page: () => OrderHistoryView(),
+      binding: OrderHistoryBinding(),
+    ),
+    GetPage(
+      name: RoutesName.orderDetail,
+      page: () => OrderdetailView(),
+      binding: OrderdetailBinding(),
+    ),
+    GetPage(
+      name: RoutesName.orderSuccess,
+      page: () => OrderSuccessView(),
+      // binding: OrderdetailBinding(),
+    ),
+    GetPage(
+      name: RoutesName.accountInfo,
+      page: () => AccountInfoView(),
+      binding: AccountInfoBinding(),
+    ),
+    GetPage(
+      name: RoutesName.searchScreen,
+      page: () => SearchView(),
+      binding: SearchBinding(),
+    ),
+    GetPage(
+      name: RoutesName.aboutUs,
+      page: () => AboutUsView(),
+      binding: AboutUsBinding(),
     ),
   ];
 }

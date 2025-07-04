@@ -1,7 +1,7 @@
 import 'package:customer_order_app/core/routes/routes_name.dart';
-import 'package:customer_order_app/data/models/user_model.dart';
 import 'package:customer_order_app/data/services/auth_service.dart';
 import 'package:customer_order_app/presentation/controllers/user_controller.dart';
+import 'package:customer_order_app/presentation/views/cart/cart_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,17 +14,12 @@ class LoginController extends GetxController
   var isRememberMe = false.obs;
   var isPasswordVisible = false.obs;
 
-  final RxBool isFormFilled = false.obs;
-
   late AnimationController _animationController;
   late Animation<double> shakeAnimation;
 
   @override
   void onInit() {
     super.onInit();
-
-    emailController.addListener(updateFormStatus);
-    passwordController.addListener(updateFormStatus);
 
     emailController.clear();
     passwordController.clear();
@@ -43,19 +38,6 @@ class LoginController extends GetxController
       });
 
     clearForm();
-  }
-
-  void updateFormStatus() {
-    isFormFilled.value =
-        emailController.text.isNotEmpty && passwordController.text.isNotEmpty;
-  }
-
-  @override
-  void onClose() {
-    _animationController.dispose();
-    emailController.removeListener(updateFormStatus);
-    passwordController.removeListener(updateFormStatus);
-    super.onClose();
   }
 
   void triggerShake() {
@@ -93,16 +75,14 @@ class LoginController extends GetxController
     isLoading.value = false;
 
     if (result['success'] == true) {
-      final userData = UserModel.fromJson(result['data']);
-      if (!Get.isRegistered<UserController>()) {
-        Get.put(UserController());
-      }
-      Get.find<UserController>().setUser(userData);
+      final userController = Get.find<UserController>();
+      userController.setUserFromJson(result['data']);
+      await Get.find<CartController>().loadCart();
       Get.offAllNamed(RoutesName.mainScreen);
     } else {
       Get.snackbar(
         'Login Failed',
-        result['message'] ?? 'Something went wrong',
+        'email or password invalid',
         backgroundColor: Colors.red,
         colorText: Colors.white,
         duration: Duration(seconds: 3),

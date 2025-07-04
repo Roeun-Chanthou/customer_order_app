@@ -15,7 +15,7 @@ class OnboardingView extends GetView<OnboardingController> {
       backgroundColor: ThemesApp.textHintColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -23,13 +23,14 @@ class OnboardingView extends GetView<OnboardingController> {
               Center(
                 child: Container(
                   height: height * 0.5,
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.grey.shade300,
-                    // image: DecorationImage(
-                    //   image: AssetImage('assets/images/user.jpg'),
-                    //   fit: BoxFit.cover,
-                    // ),
+                  ),
+                  child: Image.asset(
+                    'assets/logo/cover.png',
+                    fit: BoxFit.fitHeight,
                   ),
                 ),
               ),
@@ -54,7 +55,7 @@ class OnboardingView extends GetView<OnboardingController> {
                 onPressed: () {
                   Get.toNamed(RoutesName.loginScreen);
                 },
-                backgroundColor: ThemesApp.textSuccessColor,
+                backgroundColor: ThemesApp.secondaryColor,
                 borderRadius: 20,
                 textColor: Colors.white,
               ),
