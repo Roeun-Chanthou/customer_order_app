@@ -57,14 +57,14 @@ class MainScreenView extends GetView<MainScreenController> {
               BottomNavigationBarItem(
                 icon: controller.currenIndex.value == 2
                     ? Icon(
-                        Icons.settings,
+                        Icons.person_3_sharp,
                         size: 26,
                       )
                     : Icon(
-                        Icons.settings_outlined,
+                        Icons.person_3_outlined,
                         size: 26,
                       ),
-                label: 'Settings',
+                label: 'Profile',
               ),
             ],
           ),
