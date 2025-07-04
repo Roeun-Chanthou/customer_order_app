@@ -161,50 +161,44 @@ class HomeView extends GetView<HomeController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Container(
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
+          Stack(
+            children: [
+              ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                color: Colors.grey.shade300,
-              ),
-              child: Hero(
-                tag: product.id,
-                child: Stack(
-                  children: [
-                    Image.network(
-                      product.image,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
+                child: Container(
+                  color: Colors.grey.shade100,
+                  child: AspectRatio(
+                    aspectRatio: 0.8,
+                    child: Hero(
+                      tag: product.id,
+                      child: Image.network(
+                        product.image,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                    Positioned(
-                      right: 8,
-                      top: 8,
-                      child: Obx(() {
-                        final isFavorited =
-                            controller.isWishlisted(product.id.toString());
-                        return Bounceable(
-                          onTap: () => controller.toggleWishlist(product),
-                          child: Icon(
-                            isFavorited
-                                ? Icons.favorite
-                                : Icons.favorite_border_outlined,
-                            color: isFavorited ? Colors.red : Colors.grey,
-                          ),
-                        );
-                      }),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
+              Positioned(
+                right: 8,
+                top: 8,
+                child: Obx(() {
+                  final isFavorited =
+                      controller.isWishlisted(product.id.toString());
+                  return Bounceable(
+                    onTap: () => controller.toggleWishlist(product),
+                    child: Icon(
+                      isFavorited
+                          ? Icons.favorite
+                          : Icons.favorite_border_outlined,
+                      color: isFavorited ? Colors.red : Colors.grey,
+                    ),
+                  );
+                }),
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
-          Text(
-            product.description,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
+          const SizedBox(height: 8),
           Text(
             product.name,
             maxLines: 1,

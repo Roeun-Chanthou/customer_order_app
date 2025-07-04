@@ -32,7 +32,7 @@ class WishlistView extends GetView<WishlistController> {
             vertical: 16,
           ),
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: BouncingScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 16,
@@ -80,11 +80,6 @@ class WishlistView extends GetView<WishlistController> {
             ),
           ),
           SizedBox(height: 8),
-          Text(
-            product.description,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
           Text(
             product.name,
             maxLines: 1,
