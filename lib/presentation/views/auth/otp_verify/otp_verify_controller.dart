@@ -95,12 +95,12 @@ class OtpVerifyController extends GetxController {
       isLoading.value = false;
 
       if (result['success'] == true) {
-        Get.snackbar(
-          'Success',
-          result['message'] ?? 'Verification successful',
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
+        // Get.snackbar(
+        //   'Success',
+        //   result['message'] ?? 'Verification successful',
+        //   backgroundColor: Colors.green,
+        //   colorText: Colors.white,
+        // );
 
         await Future.delayed(const Duration(seconds: 3));
 

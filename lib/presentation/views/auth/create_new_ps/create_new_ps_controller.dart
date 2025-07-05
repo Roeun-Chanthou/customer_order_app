@@ -1,6 +1,5 @@
 import 'package:customer_order_app/core/routes/routes_name.dart';
 import 'package:customer_order_app/data/services/auth_service.dart';
-import 'package:customer_order_app/presentation/views/auth/login/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -77,8 +76,7 @@ class CreateNewPsController extends GetxController
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
-        final loginController = Get.find<LoginController>();
-        loginController.clearForm();
+        
         Get.offAllNamed(RoutesName.loginScreen);
       } else {
         Get.snackbar(
